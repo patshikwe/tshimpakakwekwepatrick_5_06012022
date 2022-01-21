@@ -8,7 +8,7 @@ function createLink(){
     continent.innerHTML = '<a href="./product.html?id=42"></a>';
 }
 
-createLink();
+// createLink();
 // createLink();
 // createLink();
 // createLink();
@@ -24,10 +24,10 @@ function createArticle(){
     let article = document.createElement("article");
     document.querySelector("section > a").appendChild(article);
     
-    article.innerHTML;
+    
 }
 
-createArticle();
+// createArticle();
 // createArticle();
 // createArticle();
 // createArticle();
@@ -37,27 +37,32 @@ createArticle();
 // createArticle();
 // ===================================================
 
-let productData = [];
 
-const fetchProduct = async ()=> {
+
+async function fetchProduct() {
+    let productData = [];
     await fetch("http://localhost:3000/api/products")
-    .then((res) => res.json())
-    .then((res2) => {
-        productData = res2
-        console.log(productData);
-    });
-};
-
-fetchProduct();
-
-function createImage(source, alt){
-
-    let image = document.createElement("img");
-    document.querySelector("article").appendChild(image);
-
-    
-   
+        .then((res) => res.json())
+        .then((res2) => {
+            productData = res2
+            console.log(productData);
+        });
+    return productData
 }
+
+
+// =====================================
+
+const createImage = async () => {
+   const productData = await fetchProduct();
+
+    document.querySelector("article").innerHTML =  `<img src=
+    "${productData[0].imageUrl}" alt="${productData[0].altTxt}">`;
+    
+    
+    
+
+};
 
 // createImage();
 // createImage();
@@ -88,14 +93,14 @@ crée l'élément(img) enfant de l'élément(article)*/
 // ==============================================
 /* Create element(img) child of element(article)
 crée l'élément(img) enfant de l'élément(article)*/
-/*function createParagraph(descrip){
+function createParagraph(descrip){
     const paragraph = document.createElement("p");
     let article = document.querySelector("article").appendChild(paragraph);
     
     article.innerHTML = `${descrip}`;
-}*/
+}
 
-// createParagraph("Excepteur sint occaecat cupidatat non proident...");
+createParagraph("Excepteur sint occaecat cupidatat non proident...");
 // createParagraph();
 // createParagraph();
 // createParagraph();
@@ -111,3 +116,11 @@ crée l'élément(img) enfant de l'élément(article)*/
         
    
 //  }
+
+function init() {
+    console.log("init")
+    createLink()
+    createArticle();
+    
+    createImage();
+}
