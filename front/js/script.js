@@ -36,17 +36,30 @@ createArticle();
 // createArticle();
 // createArticle();
 // ===================================================
-/* Create element(img) child of element(article)
-crée l'élément(img) enfant de l'élément(article)*/
+
+let productData = [];
+
+const fetchProduct = async ()=> {
+    await fetch("http://localhost:3000/api/products")
+    .then((res) => res.json())
+    .then((res2) => {
+        productData = res2
+        console.log(productData);
+    });
+};
+
+fetchProduct();
+
 function createImage(source, alt){
-    fetch("http://localhost:3000/api/products")
-    .then(response => response.json())
-    .then(response2 => console.log(response2))
-        
+
+    let image = document.createElement("img");
+    document.querySelector("article").appendChild(image);
+
+    
    
 }
 
-createImage();
+// createImage();
 // createImage();
 // createImage();
 // createImage();
@@ -57,14 +70,14 @@ createImage();
 // ===============================================
 /* Create element(img) child of element(article)
 crée l'élément(img) enfant de l'élément(article)*/
-function createTitleArticle(name){
+/*function createTitleArticle(name){
     const titleArticle = document.createElement("h3");
     let article = document.querySelector("article").appendChild(titleArticle);
     
     article.innerHTML = `${name}`;
-}
+}*/
 
-createTitleArticle("Kanap Sinopé");
+// createTitleArticle("Kanap Sinopé");
 // createTitleArticle();
 // createTitleArticle();
 // createTitleArticle();
@@ -75,14 +88,14 @@ createTitleArticle("Kanap Sinopé");
 // ==============================================
 /* Create element(img) child of element(article)
 crée l'élément(img) enfant de l'élément(article)*/
-function createParagraph(descrip){
+/*function createParagraph(descrip){
     const paragraph = document.createElement("p");
     let article = document.querySelector("article").appendChild(paragraph);
     
     article.innerHTML = `${descrip}`;
-}
+}*/
 
-createParagraph("Excepteur sint occaecat cupidatat non proident...");
+// createParagraph("Excepteur sint occaecat cupidatat non proident...");
 // createParagraph();
 // createParagraph();
 // createParagraph();
@@ -94,7 +107,7 @@ createParagraph("Excepteur sint occaecat cupidatat non proident...");
 // function createImage(source, alt){
 //     fetch("http://localhost:3000/api/products")
 //     .then(response => response.json())
-//     .then(response2 => console.table(response2))
+//     .then(response2 => console.log(response2))
         
    
-// }
+//  }
