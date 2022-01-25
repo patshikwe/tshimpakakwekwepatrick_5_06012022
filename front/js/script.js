@@ -1,24 +1,24 @@
 
 
-async function fetchProduct() {
-    let productData = [];
+async function fetchData() {
+    let data = [];
     await fetch("http://localhost:3000/api/products")
         .then((res) => res.json())
         .then((res2) => {
-            productData = res2
-            console.log(productData);
+            data = res2
+            console.log(data);
         });
-    return productData
+    return data
 }
 
 // =====================================
 
 
 const createLink = async () => {
-   const productData = await fetchProduct();
+   const data = await fetchData();
 
-document.getElementById("items").innerHTML = productData.map((product)=> 
-`<a href="./product.html?id=${product._id}">
+document.getElementById("items").innerHTML = data.map((product)=> 
+`<a href="./product.html?${product._id}">
 <article>
   <img src="${product.imageUrl}" alt="${product.altTxt}">
   <h3 class="productName">${product.name}</h3>

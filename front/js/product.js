@@ -1,29 +1,24 @@
 
+const myProduct = window.location.search.split("?").join("");
+console.log(myProduct)
+
+// ===========================================
 
 async function fetchProduct() {
-    let productData = [];
-    await fetch("http://localhost:3000/api/products")
+    let product = [];
+    await fetch(`http://localhost:3000/api/products/${myProduct}`)
         .then((res) => res.json())
         .then((res2) => {
-            productData = res2
-            console.log(productData);
-        });
-    return productData
+            product = res2
+            console.log(product)
+        })
+    return product
 }
 
-console.log(fetchProduct)
-
-// ===========================================
+// // ===========================================
 
 
-
-
-
-
-// ===========================================
-
-
-// function init() {
-//     console.log(init)
-//     createLink()
-// }
+function init() {
+    console.log(init)
+    fetchProduct()
+}
