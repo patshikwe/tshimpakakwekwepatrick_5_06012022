@@ -3,10 +3,11 @@ const myProduct = window.location.search.split("?").join("");
 console.log(myProduct)
 
 // ===========================================
-/*  Cette fonction permet d'aller récupérer les données du produit dans l'API,
-    les transformées en json et les stockées dans une variable sous forme de tableau.
-    myProduct correspond à l'id du produit selectionné.
-*/
+/** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back end);
+    les transformées en json et les stockées dans une variable sous forme de tableau;
+    myProduct correspond à l'id du produit selectionné;
+    ici la variable product stocke les données d'un produit(c'est un tableau) */
+
 async function fetchProduct() {
     let product = [];
     await fetch(`http://localhost:3000/api/products/${myProduct}`)
@@ -19,7 +20,7 @@ async function fetchProduct() {
 }
 
 // ==============================================
-
+/**  */
 
 const productSelect = async () => {
     const product = await fetchProduct();
@@ -33,13 +34,24 @@ const productSelect = async () => {
    document.querySelector(".item__content__titlePrice > p > span#price").innerHTML = 
    `${product.price}`;
 
-}
+   document.querySelector(".item__content__description > p#description").innerHTML = 
+   `${product.description}`;
+ 
+   product.colors.forEach(colorName => {
+    let tagOption = document.createElement("option");
+
+    document.querySelector("select#colors").appendChild(tagOption);
+    tagOption.innerHTML = `${colorName}`;
+    tagOption.value = `${colorName}`;
+   });
+   
+};
 
 // // ===========================================
-/* La fonction init regroupe tous les appels de fonctions.
-    Cette fontion est appelée à partir du body de la page product.html
-*/
+/** La fonction init regroupe tous les appels de fonctions.
+ * Cette fontion est appelée à partir du body de la page product.html */
+
 function init() {
-    console.log(init)
-    productSelect()
+    console.log(init);
+    productSelect();
 }
