@@ -5,7 +5,7 @@ console.log(myProduct)
 // ===========================================
 /** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back end);
     les transformées en json et les stockées dans une variable sous forme de tableau;
-    myProduct correspond à l'id du produit selectionné;
+    myProduct correspond à l'id du produit sélectionné;
     ici la variable product stocke les données d'un produit(c'est un tableau) */
 
 async function fetchProduct() {
@@ -14,7 +14,7 @@ async function fetchProduct() {
         .then((res) => res.json())
         .then((res2) => {
             product = res2
-            console.log(product)
+            // console.log(product)
         })
     return product
 }
@@ -44,7 +44,35 @@ const productSelect = async () => {
     tagOption.innerHTML = `${colorName}`;
     tagOption.value = `${colorName}`;
    });
-   
+ 
+};
+
+// ==================================================
+
+const addProduct = async () => {
+    const product = await fetchProduct();
+    let buttonProduct = document.getElementById("addToCart");
+    console.log(buttonProduct);
+    buttonProduct.addEventListener("click", () => {
+        let arrayProducts = JSON.parse(localStorage.getItem("product"));
+        let select = document.getElementById("colors");
+        console.log(select.value);
+        console.log(arrayProducts);
+
+        const selectColor = Object.assign({}, product, {
+            choiceColor : `${select.value}`,
+            quantity : 1,
+        }); 
+
+        console.log(selectColor);
+
+        if(arrayProducts == null) {
+            arrayProducts = [];
+            arrayProducts.push(product);
+            console.log(arrayProducts);
+            localStorage.setItem("obj", JSON.stringify(arrayProducts));
+        }
+    });
 };
 
 // // ===========================================
@@ -54,4 +82,5 @@ const productSelect = async () => {
 function init() {
     console.log(init);
     productSelect();
+    addProduct();
 }
