@@ -8,13 +8,14 @@ console.log(myProduct)
     myProduct correspond à l'id du produit sélectionné;
     ici la variable product stocke les données d'un produit(c'est un tableau) */
 
+let product = [];
+
 async function fetchProduct() {
-    let product = [];
     await fetch(`http://localhost:3000/api/products/${myProduct}`)
         .then((res) => res.json())
         .then((res2) => {
             product = res2
-            // console.log(product)
+            console.log(product)
         })
     return product
 }
@@ -44,21 +45,19 @@ const productSelect = async () => {
     tagOption.innerHTML = `${colorName}`;
     tagOption.value = `${colorName}`;
    });
- 
+   addProduct(product);
 };
 
 // ==================================================
 
-const addProduct = async () => {
-    const product = await fetchProduct();
+const addProduct =  () => {
     let buttonProduct = document.getElementById("addToCart");
     console.log(buttonProduct);
     buttonProduct.addEventListener("click", () => {
-        let arrayProducts = JSON.parse(localStorage.getItem("product"));
+        let arrayProducts = JSON.parse(localStorage.getItem("obj"));
         let select = document.getElementById("colors");
         console.log(select.value);
-        console.log(arrayProducts);
-
+       
         const selectColor = Object.assign({}, product, {
             choiceColor : `${select.value}`,
             quantity : 1,
@@ -68,7 +67,7 @@ const addProduct = async () => {
 
         if(arrayProducts == null) {
             arrayProducts = [];
-            arrayProducts.push(product);
+            arrayProducts.push(selectColor);
             console.log(arrayProducts);
             localStorage.setItem("obj", JSON.stringify(arrayProducts));
         }
@@ -82,5 +81,5 @@ const addProduct = async () => {
 function init() {
     console.log(init);
     productSelect();
-    addProduct();
+   
 }
