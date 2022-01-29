@@ -1,6 +1,8 @@
-// Récupérer uniquement l'id (hors du tableau)
-const myProduct = window.location.search.split("?").join("");
-console.log(myProduct)
+/** */
+
+let params = new URLSearchParams(window.location.search);
+let myProduct = params.get("id");
+console.log(myProduct);
 
 // ===========================================
 /** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back end);
@@ -71,7 +73,36 @@ const addProduct =  () => {
             console.log(arrayProducts);
             localStorage.setItem("obj", JSON.stringify(arrayProducts));
         }
+        else if (arrayProducts != null){
+            for (i = 0; i < arrayProducts.length; i++){
+                console.log("test");
+                if(arrayProducts[i]._id == product._id && 
+                    arrayProducts[i].choiceColor == select.value){
+                    return (
+                        arrayProducts[i].quantity++,
+                        console.log("quantity++"),
+                        localStorage.setItem("obj",JSON.stringify(arrayProducts)),
+                        arrayProducts = JSON.parse(localStorage.getItem("obj"))
+                    );
+                }
+            }
+            for(i = 0; i < arrayProducts.length; i++){
+                if(
+                    (arrayProducts[i]._id == product._id && 
+                    arrayProducts[i].choiceColor != select.value) || 
+                    arrayProducts[i]._id != product._id
+                    ){
+                    return (
+                        console.log("new"),
+                        arrayProducts.push(selectColor),
+                        localStorage.setItem("obj",JSON.stringify(arrayProducts)),
+                        arrayProducts = JSON.parse(localStorage.getItem("obj"))
+                    );
+                }
+            }
+        }
     });
+    return (arrayProducts = JSON.parse(localStorage.getItem("obj")));
 };
 
 // // ===========================================

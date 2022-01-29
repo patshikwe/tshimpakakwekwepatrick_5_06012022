@@ -13,7 +13,7 @@ const basket = async () => {
           <div class="cart__item__content__description">
             <h2>${obj.name}</h2>
             <p>${obj.choiceColor}</p>
-            <p>${obj.price.toString().replace(/00/,"")} €</p>
+            <p>${obj.price} €</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -26,18 +26,49 @@ const basket = async () => {
           </div>
         </div>
       </article>`
-       );
-    //=======================================================
-        // Prix total des produits
-       document.getElementById("totalPrice").innerHTML = addItem.map((obj) => 
-       `${obj.quantity * obj.price.toString().replace(/00/,"")}`
-       );
+       ).join("");
+//     //=======================================================
+//         // Prix total des produits
+//        document.getElementById("totalPrice").innerHTML = addItem.map((obj) => 
+//        `${obj.quantity * obj.price}`
+//        );
 
-        // Quantité totale des produits
-       document.getElementById("totalQuantity").innerHTML = addItem.map((obj) => 
-       `${obj.quantity}`
-       );
-}
+//         // Quantité totale des produits
+//        document.getElementById("totalQuantity").innerHTML = addItem.map((obj) => 
+//        `${obj.quantity}`
+//        );
+};
+
+// ===========================================
+// Formulaire
+
+document.querySelector("form.cart__order__form").addEventListener("submit", function(e) {
+ 
+    let prenom = document.getElementById("firstName");
+    let nom = document.getElementById("lastName");
+    let adresse = document.getElementById("address");
+    let ville = document.getElementById("city");
+    let mail = document.getElementById("email");
+    let myRegex = /^[a-zA-Z-\s]+$/;
+
+    if(prenom.value.trim() == "") {
+      e.preventDefault();
+    }else if(myRegex.test(prenom.value) == false){
+      document.getElementById("firstNameErrorMsg").innerHTML = "Le Prénom doit comporter des lettres, des tirets et espace uniquement";
+      e.preventDefault();
+    }
+
+    if(nom.value.trim() == "") {
+      e.preventDefault();
+    }else if(myRegex.test(nom.value) == false){
+      document.getElementById("lastNameErrorMsg").innerHTML = "Le Nom doit comporter des lettres, des tirets et espace uniquement";
+      e.preventDefault();
+    }
+
+    
+});
+
+
 
 
 // ============================
