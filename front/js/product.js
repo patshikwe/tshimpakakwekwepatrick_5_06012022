@@ -5,7 +5,7 @@ let myProduct = params.get("id");
 console.log(myProduct);
 
 // ===========================================
-/** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back end);
+/** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end);
     les transformées en json et les stockées dans une variable sous forme de tableau;
     myProduct correspond à l'id du produit sélectionné;
     ici la variable product stocke les données d'un produit(c'est un tableau) */
@@ -73,7 +73,7 @@ const addProduct =  () => {
             console.log(arrayProducts);
             localStorage.setItem("obj", JSON.stringify(arrayProducts));
         }
-        else if (arrayProducts != null){
+        else {
             for (i = 0; i < arrayProducts.length; i++){
                 console.log("test");
                 if(arrayProducts[i]._id == product._id && 

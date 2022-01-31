@@ -1,10 +1,10 @@
-let addItem = JSON.parse(localStorage.getItem("obj"));
+let item = JSON.parse(localStorage.getItem("obj"));
 
 const basket = async () => {
-        await addItem;
-        console.log(addItem);
+        await item;
+        console.log(item);
 
-       document.getElementById("cart__items").innerHTML = addItem.map((obj) => 
+       document.getElementById("cart__items").innerHTML = item.map((obj) => 
         `<article class="cart__item" data-id="${obj._id}" data-color="${obj.choiceColor}">
         <div class="cart__item__img">
           <img src="${obj.imageUrl}" alt="${obj.altTxt}">
@@ -28,17 +28,34 @@ const basket = async () => {
       </article>`
        ).join("");
 //     //=======================================================
+
+
 //         // Prix total des produits
-//        document.getElementById("totalPrice").innerHTML = addItem.map((obj) => 
-//        `${obj.quantity * obj.price}`
-//        );
+       document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
 
 //         // Quantité totale des produits
-//        document.getElementById("totalQuantity").innerHTML = addItem.map((obj) => 
-//        `${obj.quantity}`
-//        );
+       document.getElementById("totalQuantity").innerHTML =  `${sum}`;
 };
 
+ // Quantité totale des produits
+let sum = 0
+item = JSON.parse(localStorage.getItem("obj"));
+
+item.forEach(myFunction);
+
+console.log(sum);
+function myFunction(obj) {
+  sum += obj.quantity;
+}
+// ======================
+ // Prix total des produits
+let globalPrice = 0
+item.forEach(myPrice);
+
+console.log(globalPrice);
+function myPrice(obj) {
+  globalPrice += obj.price;
+}
 // ===========================================
 // Formulaire
 
@@ -46,10 +63,7 @@ document.querySelector("form.cart__order__form").addEventListener("submit", func
  
     let prenom = document.getElementById("firstName");
     let nom = document.getElementById("lastName");
-    let adresse = document.getElementById("address");
-    let ville = document.getElementById("city");
-    let mail = document.getElementById("email");
-    let myRegex = /^[a-zA-Z-\s]+$/;
+    let myRegex = /^[a-zA-ZÅåÄàäÖöØøÆæÉéÈèÜüÊêÛûÎî-\s]+$/;
 
     if(prenom.value.trim() == "") {
       e.preventDefault();
@@ -64,12 +78,9 @@ document.querySelector("form.cart__order__form").addEventListener("submit", func
       document.getElementById("lastNameErrorMsg").innerHTML = "Le Nom doit comporter des lettres, des tirets et espace uniquement";
       e.preventDefault();
     }
-
     
+    // alert("Formulaire envoyé!");
 });
-
-
-
 
 // ============================
 /** La fonction init regroupe tous les appels de fonctions.
