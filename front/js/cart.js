@@ -37,8 +37,8 @@ async function basket() {
   // ================================================
   document.getElementById("totalQuantity").innerHTML = `${sum}`;
   // ===============================
-  // Suppression des produi
-    // ====================
+  // Suppression des produits
+    // ======================
   let buttonDelete = document.querySelectorAll(".deleteItem");
   console.log(buttonDelete);
 
