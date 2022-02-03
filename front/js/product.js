@@ -5,10 +5,11 @@ let myProduct = params.get("id");
 console.log(myProduct);
 
 // ===========================================
-/** Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end);
+/**Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end);
     les transformées en json et les stockées dans une variable sous forme de tableau;
     myProduct correspond à l'id du produit sélectionné;
-    ici la variable product stocke les données d'un produit(c'est un tableau) */
+    ici la variable product stocke les données d'un produit(c'est un tableau)
+ */
 
 let product = [];
 

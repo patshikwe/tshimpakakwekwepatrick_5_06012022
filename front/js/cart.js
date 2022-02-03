@@ -1,64 +1,71 @@
 let item = JSON.parse(localStorage.getItem("obj"));
 
-const basket = async () => {
-        await item;
-        console.log(item);
-
-       document.getElementById("cart__items").innerHTML = item.map((obj) => 
-        `<article class="cart__item" data-id="${obj._id}" data-color="${obj.choiceColor}">
-        <div class="cart__item__img">
-          <img src="${obj.imageUrl}" alt="${obj.altTxt}">
+async function basket() {
+    await item;
+    console.log(item);
+    
+  document.getElementById("cart__items").innerHTML = item.map((obj) => 
+  ` <article class="cart__item" data-id="${obj._id}" data-color="${obj.choiceColor}">
+      <div class="cart__item__img">
+        <img src="${obj.imageUrl}" alt="${obj.altTxt}">
+      </div>
+      <div class="cart__item__content">
+        <div class="cart__item__content__description">
+          <h2>${obj.name}</h2>
+          <p>${obj.choiceColor}</p>
+          <p>${obj.price} €</p>
         </div>
-        <div class="cart__item__content">
-          <div class="cart__item__content__description">
-            <h2>${obj.name}</h2>
-            <p>${obj.choiceColor}</p>
-            <p>${obj.price} €</p>
+        <div class="cart__item__content__settings">
+          <div class="cart__item__content__settings__quantity">
+            <p>Qté : ${obj.quantity} </p>
+            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
           </div>
-          <div class="cart__item__content__settings">
-            <div class="cart__item__content__settings__quantity">
-              <p>Qté : ${obj.quantity} </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-            </div>
-            <div class="cart__item__content__settings__delete">
-              <p class="deleteItem">Supprimer</p>
-            </div>
+          <div class="cart__item__content__settings__delete">
+            <p class="deleteItem">Supprimer</p>
           </div>
         </div>
-      </article>`
-       ).join("");
-//     //=======================================================
+      </div>
+    </article>`
+  ).join("");
 
+  //=======================================================
+  // Prix total des produits(affichage page panier)
+  // ============================================
+  document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
 
-//         // Prix total des produits
-       document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
+  // Quantité totale des produits(affichage page panier)
+  // ================================================
+  document.getElementById("totalQuantity").innerHTML = `${sum}`;
+  // ===============================
+  // Suppression des produi
+    // ====================
+  let buttonDelete = document.querySelectorAll(".deleteItem");
+  console.log(buttonDelete);
 
-//         // Quantité totale des produits
-       document.getElementById("totalQuantity").innerHTML =  `${sum}`;
-};
+}
 
- // Quantité totale des produits
+ // Quantité totale des produits(boucle)
+    // ===================================
 let sum = 0
 item = JSON.parse(localStorage.getItem("obj"));
 
-item.forEach(myFunction);
-
-console.log(sum);
-function myFunction(obj) {
-  sum += obj.quantity;
+for(let i = 0; i < item.length; i++){
+  sum += item[i].quantity
 }
 // ======================
- // Prix total des produits
+ // Prix total des produits(boucle)
+    // =============================
 let globalPrice = 0
-item.forEach(myPrice);
 
-console.log(globalPrice);
-function myPrice(obj) {
-  globalPrice += obj.price;
+for(let i = 0; i < item.length; i++){
+  globalPrice += item[i].price
 }
-// ===========================================
-// Formulaire
 
+// ===========================================
+/** Validation du formulaire
+ * Regex autorise les lettres majuscules, minuscules et avec accents, espace et tirets
+ * pour les champs prénom et nom. if interdit l'envoie du champs vide. 
+ */
 document.querySelector("form.cart__order__form").addEventListener("submit", function(e) {
  
     let prenom = document.getElementById("firstName");
@@ -79,7 +86,6 @@ document.querySelector("form.cart__order__form").addEventListener("submit", func
       e.preventDefault();
     }
     
-    // alert("Formulaire envoyé!");
 });
 
 // ============================
