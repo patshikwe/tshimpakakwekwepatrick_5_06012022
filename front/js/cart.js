@@ -1,23 +1,27 @@
-let item = JSON.parse(localStorage.getItem("obj"));
-
+/** keyStorage est la clé stockée dans localStorage
+ * Récupérée est assignée dans la variable item
+ */
+let item = JSON.parse(localStorage.getItem("keyStorage"));
+// ======================================================
+// Données panier ===========
 async function basket() {
     await item;
     console.log(item);
     
-  document.getElementById("cart__items").innerHTML = item.map((obj) => 
-  ` <article class="cart__item" data-id="${obj._id}" data-color="${obj.choiceColor}">
+  document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
+  ` <article class="cart__item" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">
       <div class="cart__item__img">
-        <img src="${obj.imageUrl}" alt="${obj.altTxt}">
+        <img src="${keyStorage.imageUrl}" alt="${keyStorage.altTxt}">
       </div>
       <div class="cart__item__content">
         <div class="cart__item__content__description">
-          <h2>${obj.name}</h2>
-          <p>${obj.choiceColor}</p>
-          <p>${obj.price} €</p>
+          <h2>${keyStorage.name}</h2>
+          <p>${keyStorage.choiceColor}</p>
+          <p>${keyStorage.price} €</p>
         </div>
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
-            <p>Qté : ${obj.quantity} </p>
+            <p>Qté : ${keyStorage.quantity} </p>
             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
           </div>
           <div class="cart__item__content__settings__delete">
@@ -27,7 +31,7 @@ async function basket() {
       </div>
     </article>`
   ).join("");
-
+ 
   //=======================================================
   // Prix total des produits(affichage page panier)
   // ============================================
@@ -37,17 +41,27 @@ async function basket() {
   // ================================================
   document.getElementById("totalQuantity").innerHTML = `${sum}`;
   // ===============================
-  // Suppression des produits
-    // ======================
-  let buttonDelete = document.querySelectorAll(".deleteItem");
+  // supprimer produit dans le panier
+    // =============================
+  let buttonDelete = document.querySelectorAll(".cart__item");
   console.log(buttonDelete);
 
+  function selecDelete(_id) {
+    for (let i = 0; i < buttonDelete.length; i++) {
+      buttonDelete[i].addEventListener("click", (e) => {
+        item = item.filter(el => el._id !== _id);
+       
+      });
+    }
+  }
+  selecDelete(item.id);
 }
+
 
  // Quantité totale des produits(boucle)
     // ===================================
 let sum = 0
-item = JSON.parse(localStorage.getItem("obj"));
+item = JSON.parse(localStorage.getItem("keyStorage"));
 
 for(let i = 0; i < item.length; i++){
   sum += item[i].quantity

@@ -1,20 +1,20 @@
 /** */
 
 let params = new URLSearchParams(window.location.search);
-let myProduct = params.get("id");
-console.log(myProduct);
+let idProduct = params.get("id");
+console.log(idProduct);
 
 // ===========================================
 /**Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end);
     les transformées en json et les stockées dans une variable sous forme de tableau;
-    myProduct correspond à l'id du produit sélectionné;
+    idProduct correspond à l'id du produit sélectionné;
     ici la variable product stocke les données d'un produit(c'est un tableau)
  */
 
 let product = [];
 
 async function fetchProduct() {
-    await fetch(`http://localhost:3000/api/products/${myProduct}`)
+    await fetch(`http://localhost:3000/api/products/${idProduct}`)
         .then((res) => res.json())
         .then((res2) => {
             product = res2
@@ -57,7 +57,7 @@ const addProduct =  () => {
     let buttonProduct = document.getElementById("addToCart");
     console.log(buttonProduct);
     buttonProduct.addEventListener("click", () => {
-        let arrayProducts = JSON.parse(localStorage.getItem("obj"));
+        let arrayProducts = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("colors");
         console.log(select.value);
        
@@ -72,7 +72,7 @@ const addProduct =  () => {
             arrayProducts = [];
             arrayProducts.push(selectColor);
             console.log(arrayProducts);
-            localStorage.setItem("obj", JSON.stringify(arrayProducts));
+            localStorage.setItem("keyStorage", JSON.stringify(arrayProducts));
         }
         else {
             for (i = 0; i < arrayProducts.length; i++){
@@ -82,8 +82,8 @@ const addProduct =  () => {
                     return (
                         arrayProducts[i].quantity++,
                         console.log("quantity++"),
-                        localStorage.setItem("obj",JSON.stringify(arrayProducts)),
-                        arrayProducts = JSON.parse(localStorage.getItem("obj"))
+                        localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
+                        arrayProducts = JSON.parse(localStorage.getItem("keyStorage"))
                     );
                 }
             }
@@ -96,14 +96,14 @@ const addProduct =  () => {
                     return (
                         console.log("new"),
                         arrayProducts.push(selectColor),
-                        localStorage.setItem("obj",JSON.stringify(arrayProducts)),
-                        arrayProducts = JSON.parse(localStorage.getItem("obj"))
+                        localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
+                        arrayProducts = JSON.parse(localStorage.getItem("keyStorage"))
                     );
                 }
             }
         }
     });
-    return (arrayProducts = JSON.parse(localStorage.getItem("obj")));
+    return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
 };
 
 // // ===========================================
