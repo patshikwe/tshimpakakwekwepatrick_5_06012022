@@ -43,18 +43,26 @@ async function basket() {
   // ===============================
   // supprimer produit dans le panier
     // =============================
-  let buttonDelete = document.querySelectorAll(".cart__item");
+  let buttonDelete = document.querySelectorAll(".deleteItem");
   console.log(buttonDelete);
 
-  function selecDelete(_id) {
-    for (let i = 0; i < buttonDelete.length; i++) {
-      buttonDelete[i].addEventListener("click", (e) => {
-        item = item.filter(el => el._id !== _id);
-       
-      });
-    }
+  // function selectDelete() {
+  //   for (let i = 0; i < buttonDelete.length; i++) {
+  //     buttonDelete[i].addEventListener("click", (e) => {
+  //       item = item.filter(el => el._id !== item._id);
+        
+  //     });
+  //   }
+  // }
+  // selectDelete();
+  
+  for (let i = 0; i < buttonDelete.length; i++) {
+    buttonDelete[i].addEventListener("click", (e) => {
+      item = item.filter(p => p.id != product);
+      // localStorage.setItem("keyStorage",JSON.stringify(item));
+    }) 
   }
-  selecDelete(item.id);
+  
 }
 
 
@@ -109,3 +117,4 @@ document.querySelector("form.cart__order__form").addEventListener("submit", func
 function init() {
     basket();
 }
+
