@@ -97,25 +97,32 @@ for(let i = 0; i < item.length; i++){
 }
 
 // ===========================================
-
+// Récupérer le formulaire par sa classe =====
 let form = document.querySelector(".cart__order__form");
 
 /** Validation du formulaire
- * Regex(firstRegExp) autorise les lettres majuscules, minuscules et avec accents, espace et tirets
+ * N°1 Regex(firstRegExp) autorise les lettres minuscules, majuscules et avec accents, tiret et espace
  * pour les champs prénom et nom.  
+ * N°2 RegExp(secondRegExp) pour adresse, autorise les chiffres de 0 à 9 une ou plusieurs fois, les lettres 
+ * minuscules, majuscules et avec accents, point, underscore, tiret et espace.
+ * N°3 Regex(emailRegExp) pour email est composé en 3 parties, autorise: 1ère: lettres de a à z minuscules et 
+ * majuscules, chiffres de 0 à 9, point, underscore et tiret;
+ * 2ème: @ une fois, lettres de a à z minuscules et majuscules, chiffres de 0 à 9, point, underscore et tiret 
+ * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10. 
  */
- let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+ let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+ let secondRegExp = /^[0-9]+[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
+ let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî]+$/;
+ let emailRegExp = /^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$/;
 
-// **************** Ecouter La modification Pénom *****************
+// ********** Ecouter La modification Pénom *****************
 form.firstName.addEventListener('change', function() {
   validFirstName(this);
 });
 
-// ************ Validation Prénom ***************
+// ************ Validation Prénom ***************************
 const validFirstName = function(verif) {
-  // regExp pour prénom  ----------
   let  testFirstName = firstRegExp.test(verif.value);
-
   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
  
   if (testFirstName == true) {
@@ -136,9 +143,7 @@ form.lastName.addEventListener('change', function() {
 
 // ************ Validation Nom ***************
 const validLastName = function(verif) {
-  // RegExp pour Nom  ----------
   let  testLastName = firstRegExp.test(verif.value);
-
   let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
  
   if (testLastName == true) {
@@ -152,8 +157,71 @@ const validLastName = function(verif) {
   }
 };
 
+// *************** Ecouter La modification Adresse ***************
+form.address.addEventListener('change', function() {
+  validAdress(this);
+});
+
+// ************ Validation Adresse ***************
+const validAdress = function(verif) {
+  let  testAdress = secondRegExp.test(verif.value);
+  let addressErrorMsg = document.getElementById("addressErrorMsg");
+ 
+  if (testAdress == true) {
+    addressErrorMsg.innerHTML = 'Adresse Valide';
+    addressErrorMsg.style.color = 'lime';
+    return true;
+  }else {
+    addressErrorMsg.innerHTML = 'Exemple: 3 Rue Paul';
+    addressErrorMsg.style.color = '#fbbcbc';
+    return false;
+  }
+};
+
+// *************** Ecouter La modification Ville ***************
+form.city.addEventListener('change', function() {
+  validCity(this);
+});
+
+// ************ Validation Ville ***************
+const validCity = function(verif) {
+  let  testCity = thirdRegExp.test(verif.value);
+  let cityErrorMsg = document.getElementById("cityErrorMsg");
+ 
+  if (testCity == true) {
+    cityErrorMsg.innerHTML = 'Ville Valide';
+    cityErrorMsg.style.color = 'lime';
+    return true;
+  }else {
+    cityErrorMsg.innerHTML = 'Ce Champ Accepte Uniquement Le Nom De La Ville';
+    cityErrorMsg.style.color = '#fbbcbc';
+    return false;
+  }
+};
+// *************** Ecouter La modification Email ***************
+form.email.addEventListener('change', function() {
+  validEmail(this);
+});
+
+// ************ Validation Email ***************
+const validEmail = function(verif) {
+  let  testEmail = emailRegExp.test(verif.value);
+  let emailErrorMsg = document.getElementById("emailErrorMsg");
+ 
+  if (testEmail == true) {
+    emailErrorMsg.innerHTML = 'Email Valide';
+    emailErrorMsg.style.color = 'lime';
+    return true;
+  }else {
+    emailErrorMsg.innerHTML = 'Email Non Valide';
+    emailErrorMsg.style.color = '#fbbcbc';
+    return false;
+  }
+};
+
 // ************* Ecouter et Envoyer le formulaire ***************
 form.addEventListener('submit', function(e) {
+ 
    // Créé objet contact
    const contact = {
     prenom : document.querySelector("#firstName").value,
@@ -171,9 +239,11 @@ form.addEventListener('submit', function(e) {
   
   /** */
 
-  if(form.firstName && form.lastName){
+  if(validFirstName(form.firstName) && (form.lastName)){
     localStorage.setItem("contact",JSON.stringify(contact));
     form.submit();
+  }else {
+    e.preventDefault
   }
   
 });
