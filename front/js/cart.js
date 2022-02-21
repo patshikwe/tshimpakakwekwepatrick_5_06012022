@@ -101,9 +101,11 @@ for(let i = 0; i < item.length; i++){
 let form = document.querySelector(".cart__order__form");
 
 /** Validation du formulaire
- * Regex autorise les lettres majuscules, minuscules et avec accents, espace et tirets
+ * Regex(firstRegExp) autorise les lettres majuscules, minuscules et avec accents, espace et tirets
  * pour les champs prénom et nom.  
  */
+ let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+
 // **************** Ecouter La modification Pénom *****************
 form.firstName.addEventListener('change', function() {
   validFirstName(this);
@@ -112,10 +114,7 @@ form.firstName.addEventListener('change', function() {
 // ************ Validation Prénom ***************
 const validFirstName = function(verif) {
   // regExp pour prénom  ----------
-  let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
-
   let  testFirstName = firstRegExp.test(verif.value);
-  console.log(testFirstName);
 
   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
  
@@ -138,8 +137,6 @@ form.lastName.addEventListener('change', function() {
 // ************ Validation Nom ***************
 const validLastName = function(verif) {
   // RegExp pour Nom  ----------
-  let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
-
   let  testLastName = firstRegExp.test(verif.value);
 
   let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
@@ -174,7 +171,7 @@ form.addEventListener('submit', function(e) {
   
   /** */
 
-  if(validFirstName(form.firstName) && (form.lastName)){
+  if(form.firstName && form.lastName){
     localStorage.setItem("contact",JSON.stringify(contact));
     form.submit();
   }
