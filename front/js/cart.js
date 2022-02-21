@@ -222,7 +222,7 @@ const validEmail = function(verif) {
 // ************* Ecouter et Envoyer le formulaire ***************
 form.addEventListener('submit', function(e) {
  
-   // Créé objet contact
+   // Créé objet contact ==========
    const contact = {
     prenom : document.querySelector("#firstName").value,
 
@@ -234,16 +234,26 @@ form.addEventListener('submit', function(e) {
  
     mail : document.querySelector("#email").value,
   }
-    
-  // ---------------------------------------
   
-  /** */
+  /** Soumission aux conditions de validation
+   * Si les fonctions de validation sont fausses, pas d'envoi du formulaire
+   * Sinon envoi au localeStorage
+   */
 
-  if(validFirstName(form.firstName) && (form.lastName)){
+  if(validFirstName(form.firstName) == false){
+    e.preventDefault();
+  }else if(validLastName(form.lastName) == false){
+    e.preventDefault();
+  }else if(validAdress(form.address) == false){
+    e.preventDefault();
+  }else if(validCity(form.city) == false){
+    e.preventDefault();
+  }else if(validEmail(form.email) == false){
+    e.preventDefault();
+  }
+  else {
     localStorage.setItem("contact",JSON.stringify(contact));
     form.submit();
-  }else {
-    e.preventDefault
   }
   
 });
