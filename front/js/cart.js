@@ -43,8 +43,20 @@ async function basket() {
   // ===============================
   // supprimer produit dans le panier
     // =============================
-  let buttonDelete = document.querySelectorAll(".deleteItem");
-  console.log(buttonDelete);
+  const paragraphDelete = document.querySelector(".deleteItem");
+  console.log(paragraphDelete);
+
+  // const buttonDelete = Array.from(paragraphDelete);
+  // console.log(buttonDelete);
+
+  const collectArticle = document.querySelectorAll(".cart__item");
+  console.log(collectArticle);
+
+  // const dataArticle = Array.from(collectArticle);
+  // console.log(dataArticle);
+
+  let closestArticle = paragraphDelete.closest(".cart__item");
+  console.log(closestArticle);
 
   // function selectDelete() {
   //   for (let i = 0; i < buttonDelete.length; i++) {
@@ -56,15 +68,16 @@ async function basket() {
   // }
   // selectDelete();
   
-  for (let i = 0; i < buttonDelete.length; i++) {
-    buttonDelete[i].addEventListener("click", (e) => {
-      item = item.filter(p => p.id != product);
-      // localStorage.setItem("keyStorage",JSON.stringify(item));
-    }) 
-  }
-  
+  // for (let i = 0; i < closestArticle.length; i++) {
+  //   closestArticle[i].addEventListener("click", function() {
+  //     // dataArticle[i].addEventListener()
+  //     item = item.filter(p => p.id != product.id);
+  //   }) 
+  // }
+  // console.log(item);
 }
 
+console.log(window.location.href);
 
  // Quantité totale des produits(boucle)
     // ===================================
@@ -84,33 +97,92 @@ for(let i = 0; i < item.length; i++){
 }
 
 // ===========================================
+
+let form = document.querySelector(".cart__order__form");
+
 /** Validation du formulaire
  * Regex autorise les lettres majuscules, minuscules et avec accents, espace et tirets
- * pour les champs prénom et nom. if interdit l'envoie du champs vide. 
+ * pour les champs prénom et nom.  
  */
-document.querySelector("form.cart__order__form").addEventListener("submit", function(e) {
- 
-    let prenom = document.getElementById("firstName");
-    let nom = document.getElementById("lastName");
-    let myRegex = /^[a-zA-ZÅåÄàäÖöØøÆæÉéÈèÜüÊêÛûÎî-\s]+$/;
-
-    if(prenom.value.trim() == "") {
-      e.preventDefault();
-    }else if(myRegex.test(prenom.value) == false){
-      document.getElementById("firstNameErrorMsg").innerHTML = "Le Prénom doit comporter des lettres, des tirets et espace uniquement";
-      e.preventDefault();
-    }
-
-    if(nom.value.trim() == "") {
-      e.preventDefault();
-    }else if(myRegex.test(nom.value) == false){
-      document.getElementById("lastNameErrorMsg").innerHTML = "Le Nom doit comporter des lettres, des tirets et espace uniquement";
-      e.preventDefault();
-    }
-    
+// **************** Ecouter La modification Pénom *****************
+form.firstName.addEventListener('change', function() {
+  validFirstName(this);
 });
 
-// ============================
+// ************ Validation Prénom ***************
+const validFirstName = function(verif) {
+  // regExp pour prénom  ----------
+  let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+
+  let  testFirstName = firstRegExp.test(verif.value);
+  console.log(testFirstName);
+
+  let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+ 
+  if (testFirstName == true) {
+    firstNameErrorMsg.innerHTML = 'Prénom Valide';
+    firstNameErrorMsg.style.color = 'lime';
+    return true;
+  }else {
+    firstNameErrorMsg.innerHTML = 'Prénom Non Valide';
+    firstNameErrorMsg.style.color = '#fbbcbc';
+    return false;
+  }
+};
+
+// *************** Ecouter La modification Nom ***************
+form.lastName.addEventListener('change', function() {
+  validLastName(this);
+});
+
+// ************ Validation Nom ***************
+const validLastName = function(verif) {
+  // RegExp pour Nom  ----------
+  let firstRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+
+  let  testLastName = firstRegExp.test(verif.value);
+
+  let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+ 
+  if (testLastName == true) {
+    lastNameErrorMsg.innerHTML = 'Nom Valide';
+    lastNameErrorMsg.style.color = 'lime';
+    return true;
+  }else {
+    lastNameErrorMsg.innerHTML = 'Nom Non Valide';
+    lastNameErrorMsg.style.color = '#fbbcbc';
+    return false;
+  }
+};
+
+// ************* Ecouter et Envoyer le formulaire ***************
+form.addEventListener('submit', function(e) {
+   // Créé objet contact
+   const contact = {
+    prenom : document.querySelector("#firstName").value,
+
+    nom : document.querySelector("#lastName").value,
+ 
+    adresse : document.querySelector("#address").value,
+ 
+    city : document.querySelector("#city").value,
+ 
+    mail : document.querySelector("#email").value,
+  }
+    
+  // ---------------------------------------
+  
+  /** */
+
+  if(validFirstName(form.firstName) && (form.lastName)){
+    localStorage.setItem("contact",JSON.stringify(contact));
+    form.submit();
+  }
+  
+});
+
+
+// =================================================================
 /** La fonction init regroupe tous les appels de fonctions.
  * Cette fontion est appelée à partir du body de la page cart.html */
 

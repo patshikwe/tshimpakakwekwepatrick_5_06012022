@@ -56,7 +56,8 @@ const productSelect = async () => {
 const addProduct =  () => {
     let buttonProduct = document.getElementById("addToCart");
     console.log(buttonProduct);
-    buttonProduct.addEventListener("click", () => {
+    buttonProduct.addEventListener("click", (e) => {
+        // e.preventDefault();
         let arrayProducts = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("colors");
         console.log(select.value);
@@ -64,6 +65,7 @@ const addProduct =  () => {
         const selectColor = Object.assign({}, product, {
             choiceColor : `${select.value}`,
             quantity : 1,
+
         }); 
 
         console.log(selectColor);
@@ -76,7 +78,6 @@ const addProduct =  () => {
         }
         else {
             for (i = 0; i < arrayProducts.length; i++){
-                console.log("test");
                 if(arrayProducts[i]._id == product._id && 
                     arrayProducts[i].choiceColor == select.value){
                     return (
@@ -94,7 +95,6 @@ const addProduct =  () => {
                     arrayProducts[i]._id != product._id
                     ){
                     return (
-                        console.log("new"),
                         arrayProducts.push(selectColor),
                         localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
                         arrayProducts = JSON.parse(localStorage.getItem("keyStorage"))
@@ -102,6 +102,9 @@ const addProduct =  () => {
                 }
             }
         }
+        console.log("window.location.href");
+
+        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
     });
     return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
 };
