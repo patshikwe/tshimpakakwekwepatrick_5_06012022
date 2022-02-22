@@ -121,6 +121,10 @@ form.firstName.addEventListener('change', function() {
 });
 
 // ************ Validation Prénom ***************************
+/** validFirstName est une fonction 
+ * testFirstName contient la variable RegExp avec la méthode test() qui renvoie true ou false
+ * firstNameErrorMsg correspond au paragraphe de message d'erreur
+ * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
 const validFirstName = function(verif) {
   let  testFirstName = firstRegExp.test(verif.value);
   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
@@ -142,6 +146,10 @@ form.lastName.addEventListener('change', function() {
 });
 
 // ************ Validation Nom ***************
+/** validLastName est une fonction 
+ * testLastName contient la variable RegExp avec la méthode test() qui renvoie true ou false
+ * lastNameErrorMsg correspond au paragraphe de message d'erreur
+ * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
 const validLastName = function(verif) {
   let  testLastName = firstRegExp.test(verif.value);
   let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
@@ -163,6 +171,10 @@ form.address.addEventListener('change', function() {
 });
 
 // ************ Validation Adresse ***************
+/** validAdress est une fonction 
+ * testAdress contient la variable RegExp avec la méthode test() qui renvoie true ou false
+ * addressErrorMsg correspond au paragraphe de message d'erreur
+ * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
 const validAdress = function(verif) {
   let  testAdress = secondRegExp.test(verif.value);
   let addressErrorMsg = document.getElementById("addressErrorMsg");
@@ -184,6 +196,10 @@ form.city.addEventListener('change', function() {
 });
 
 // ************ Validation Ville ***************
+/** valiCity est une fonction 
+ * testCity contient la variable RegExp avec la méthode test() qui renvoie true ou false
+ * cityErrorMsg correspond au paragraphe de message d'erreur
+ * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
 const validCity = function(verif) {
   let  testCity = thirdRegExp.test(verif.value);
   let cityErrorMsg = document.getElementById("cityErrorMsg");
@@ -204,6 +220,10 @@ form.email.addEventListener('change', function() {
 });
 
 // ************ Validation Email ***************
+/** validEmail est une fonction 
+ * testEmail contient la variable RegExp avec la méthode test() qui renvoie true ou false
+ * emailErrorMsg correspond au paragraphe de message d'erreur
+ * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
 const validEmail = function(verif) {
   let  testEmail = emailRegExp.test(verif.value);
   let emailErrorMsg = document.getElementById("emailErrorMsg");
@@ -222,7 +242,10 @@ const validEmail = function(verif) {
 // ************* Ecouter et Envoyer le formulaire ***************
 form.addEventListener('submit', function(e) {
  
-   // Créé objet contact ==========
+  /** const contact est un objet
+   * chaque clé appelle une méthode qui récupère son id
+   * value correpond à la saisie du champ de formulaire par l'utilisateur
+   */
    const contact = {
     prenom : document.querySelector("#firstName").value,
 
@@ -234,12 +257,11 @@ form.addEventListener('submit', function(e) {
  
     mail : document.querySelector("#email").value,
   }
-  
+  // ======================================
   /** Soumission aux conditions de validation
    * Si les fonctions de validation sont fausses, pas d'envoi du formulaire
    * Sinon envoi au localeStorage
    */
-
   if(validFirstName(form.firstName) == false){
     e.preventDefault();
   }else if(validLastName(form.lastName) == false){
