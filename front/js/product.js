@@ -5,11 +5,11 @@ let idProduct = params.get("id");
 console.log(idProduct);
 
 // ===========================================
-/**Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end);
-    les transformées en json et les stockées dans une variable sous forme de tableau;
-    idProduct correspond à l'id du produit sélectionné;
-    ici la variable product stocke les données d'un produit(c'est un tableau)
- */
+/**Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end); 
+ * les transformées en json et les stockées dans une variable sous forme de tableau;
+ * idProduct correspond à l'id du produit sélectionné;
+ * ici la variable product stocke les données d'un produit(c'est un tableau).
+*/
 
 let product = [];
 
@@ -56,30 +56,34 @@ const productSelect = async () => {
 const addProduct =  () => {
     let buttonProduct = document.getElementById("addToCart");
     console.log(buttonProduct);
+
     buttonProduct.addEventListener("click", (e) => {
-        // e.preventDefault();
+        //Récupéré le tableau dans localStorage
         let arrayProducts = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("colors");
-        console.log(select.value);
-       
+
+        /** selectColor est une variable par la quelle est assignée des éléments
+         * choiceColor(la couleur choisie) et quantity(la quantité du produit de même id)
+         * selectColor est un élément de product(tableau)
+         */
         const selectColor = Object.assign({}, product, {
             choiceColor : `${select.value}`,
             quantity : 1,
-
         }); 
-
-        console.log(selectColor);
-
-        if(arrayProducts == null) {
+         console.log(selectColor);
+     
+        // Ajout un produit dans localStorage
+        if (arrayProducts == null) {
             arrayProducts = [];
             arrayProducts.push(selectColor);
             console.log(arrayProducts);
             localStorage.setItem("keyStorage", JSON.stringify(arrayProducts));
         }
-        else {
+         else  {
             for (i = 0; i < arrayProducts.length; i++){
-                if(arrayProducts[i]._id == product._id && 
+                if (arrayProducts[i]._id == product._id && 
                     arrayProducts[i].choiceColor == select.value){
+                        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
                     return (
                         arrayProducts[i].quantity++,
                         console.log("quantity++"),
@@ -88,12 +92,13 @@ const addProduct =  () => {
                     );
                 }
             }
-            for(i = 0; i < arrayProducts.length; i++){
+            for (i = 0; i < arrayProducts.length; i++){
                 if(
                     (arrayProducts[i]._id == product._id && 
                     arrayProducts[i].choiceColor != select.value) || 
                     arrayProducts[i]._id != product._id
                     ){
+                        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
                     return (
                         arrayProducts.push(selectColor),
                         localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
@@ -102,10 +107,10 @@ const addProduct =  () => {
                 }
             }
         }
-        console.log("window.location.href");
-
+       
         window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
     });
+    // retourne la nouvelle valeur du tableau
     return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
 };
 

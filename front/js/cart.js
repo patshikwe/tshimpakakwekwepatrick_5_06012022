@@ -7,7 +7,7 @@ let item = JSON.parse(localStorage.getItem("keyStorage"));
 async function basket() {
     await item;
     console.log(item);
-    
+
   document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
   ` <article class="cart__item" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">
       <div class="cart__item__img">
@@ -25,7 +25,7 @@ async function basket() {
             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p class="deleteItem">Supprimer</p>
+            <p class="deleteItem" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">Supprimer</p>
           </div>
         </div>
       </div>
@@ -33,30 +33,57 @@ async function basket() {
   ).join("");
  
   //=======================================================
-  // Prix total des produits(affichage page panier)
-  // ============================================
-  document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
+  // Quantité totale des produits(boucle)
+  // ====================================
+  let sum = 0;
+  item;
 
+  if (item == null) {
+    sum = 0;
+  }
+  else {
+    for(let i = 0; i < item.length; i++){
+      sum += item[i].quantity
+    }
+  }
   // Quantité totale des produits(affichage page panier)
   // ================================================
   document.getElementById("totalQuantity").innerHTML = `${sum}`;
+    // ==============================================
+  // Prix total des produits(boucle)
   // ===============================
+  let globalPrice = 0;
+
+  if (item == null) {
+    globalPrice = 0;
+  }
+  else {
+    for(let i = 0; i < item.length; i++){
+      globalPrice += item[i].price
+    }
+  }
+  // Prix total des produits(affichage page panier)
+  // ============================================
+  document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
+  console.log(globalPrice);
+  
+  // ============================================
   // supprimer produit dans le panier
     // =============================
-  const paragraphDelete = document.querySelector(".deleteItem");
+  const paragraphDelete = document.querySelectorAll(".deleteItem");
   console.log(paragraphDelete);
 
-  // const buttonDelete = Array.from(paragraphDelete);
-  // console.log(buttonDelete);
+  const buttonDelete = Array.from(paragraphDelete);
+  console.log(buttonDelete);
 
-  const collectArticle = document.querySelectorAll(".cart__item");
-  console.log(collectArticle);
+  // const collectArticle = document.querySelectorAll(".cart__item");
+  // console.log(collectArticle);
 
   // const dataArticle = Array.from(collectArticle);
   // console.log(dataArticle);
 
-  let closestArticle = paragraphDelete.closest(".cart__item");
-  console.log(closestArticle);
+  // let closestArticle = paragraphDelete.closest(".cart__item");
+  // console.log(closestArticle);
 
   // function selectDelete() {
   //   for (let i = 0; i < buttonDelete.length; i++) {
@@ -79,25 +106,8 @@ async function basket() {
 
 console.log(window.location.href);
 
- // Quantité totale des produits(boucle)
-    // ===================================
-let sum = 0
-item = JSON.parse(localStorage.getItem("keyStorage"));
-
-for(let i = 0; i < item.length; i++){
-  sum += item[i].quantity
-}
-// ======================
- // Prix total des produits(boucle)
-    // =============================
-let globalPrice = 0
-
-for(let i = 0; i < item.length; i++){
-  globalPrice += item[i].price
-}
-
-// ===========================================
-// Récupérer le formulaire par sa classe =====
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/** Récuperé le formulaire par sa classe, assigné à la variable form */
 let form = document.querySelector(".cart__order__form");
 
 /** Validation du formulaire
@@ -133,7 +143,8 @@ const validFirstName = function(verif) {
     firstNameErrorMsg.innerHTML = 'Prénom Valide';
     firstNameErrorMsg.style.color = 'lime';
     return true;
-  }else {
+  }
+  else {
     firstNameErrorMsg.innerHTML = 'Prénom Non Valide';
     firstNameErrorMsg.style.color = '#fbbcbc';
     return false;
@@ -158,7 +169,8 @@ const validLastName = function(verif) {
     lastNameErrorMsg.innerHTML = 'Nom Valide';
     lastNameErrorMsg.style.color = 'lime';
     return true;
-  }else {
+  }
+  else {
     lastNameErrorMsg.innerHTML = 'Nom Non Valide';
     lastNameErrorMsg.style.color = '#fbbcbc';
     return false;
@@ -183,7 +195,8 @@ const validAdress = function(verif) {
     addressErrorMsg.innerHTML = 'Adresse Valide';
     addressErrorMsg.style.color = 'lime';
     return true;
-  }else {
+  }
+  else {
     addressErrorMsg.innerHTML = 'Exemple: 3 Rue Paul';
     addressErrorMsg.style.color = '#fbbcbc';
     return false;
@@ -208,7 +221,8 @@ const validCity = function(verif) {
     cityErrorMsg.innerHTML = 'Ville Valide';
     cityErrorMsg.style.color = 'lime';
     return true;
-  }else {
+  }
+  else {
     cityErrorMsg.innerHTML = 'Ce Champ Accepte Uniquement Le Nom De La Ville';
     cityErrorMsg.style.color = '#fbbcbc';
     return false;
@@ -232,7 +246,8 @@ const validEmail = function(verif) {
     emailErrorMsg.innerHTML = 'Email Valide';
     emailErrorMsg.style.color = 'lime';
     return true;
-  }else {
+  }
+  else {
     emailErrorMsg.innerHTML = 'Email Non Valide';
     emailErrorMsg.style.color = '#fbbcbc';
     return false;
