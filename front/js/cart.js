@@ -22,7 +22,7 @@ async function basket() {
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
             <p>Qté : ${keyStorage.quantity} </p>
-            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="42">
           </div>
           <div class="cart__item__content__settings__delete">
             <p class="deleteItem" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">Supprimer</p>
@@ -68,43 +68,42 @@ async function basket() {
   console.log(globalPrice);
   
   // ============================================
-  // supprimer produit dans le panier
-    // =============================
+ 
+
+  // addQuantity();
+  selectDelete();
+}
+
+// const addQuantity = async (basket) => {
+//   await basket
+//   console.log("plus plus");
+//   let itemQuantity = document.querySelectorAll(".itemQuantity");
+//   console.log(itemQuantity);
+//   itemQuantity.forEach(add => {
+//     add.addEventListener("change", function() {
+//       console.log(add);
+
+//     });
+//   });
+// }
+// ******************* Supprimer Produit **********************************
+
+const selectDelete = async (basket) => {
+  await basket
+  console.log("plus plus");
   const paragraphDelete = document.querySelectorAll(".deleteItem");
   console.log(paragraphDelete);
 
-  const buttonDelete = Array.from(paragraphDelete);
-  console.log(buttonDelete);
+  paragraphDelete.forEach(del => {
+    del.addEventListener("click", function() {
+      let item = JSON.parse(localStorage.getItem("keyStorage"));
 
-  // const collectArticle = document.querySelectorAll(".cart__item");
-  // console.log(collectArticle);
-
-  // const dataArticle = Array.from(collectArticle);
-  // console.log(dataArticle);
-
-  // let closestArticle = paragraphDelete.closest(".cart__item");
-  // console.log(closestArticle);
-
-  // function selectDelete() {
-  //   for (let i = 0; i < buttonDelete.length; i++) {
-  //     buttonDelete[i].addEventListener("click", (e) => {
-  //       item = item.filter(el => el._id !== item._id);
-        
-  //     });
-  //   }
-  // }
-  // selectDelete();
-  
-  // for (let i = 0; i < closestArticle.length; i++) {
-  //   closestArticle[i].addEventListener("click", function() {
-  //     // dataArticle[i].addEventListener()
-  //     item = item.filter(p => p.id != product.id);
-  //   }) 
-  // }
-  // console.log(item);
+      console.log(del);
+      neWItem = item.filter(el => item._id !== del.dataset.id);
+      console.log(item);
+    });
+  });
 }
-
-console.log(window.location.href);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /** Récuperé le formulaire par sa classe, assigné à la variable form */

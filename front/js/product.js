@@ -83,7 +83,7 @@ const addProduct =  () => {
             for (i = 0; i < arrayProducts.length; i++){
                 if (arrayProducts[i]._id == product._id && 
                     arrayProducts[i].choiceColor == select.value){
-                        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
+                        window.location.href = "./cart.html";
                     return (
                         arrayProducts[i].quantity++,
                         console.log("quantity++"),
@@ -98,7 +98,7 @@ const addProduct =  () => {
                     arrayProducts[i].choiceColor != select.value) || 
                     arrayProducts[i]._id != product._id
                     ){
-                        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
+                        window.location.href = "./cart.html";
                     return (
                         arrayProducts.push(selectColor),
                         localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
@@ -108,7 +108,7 @@ const addProduct =  () => {
             }
         }
        
-        window.location.href = "file:///C:/Users/pc/Documents/tshimpakakwekwepatrick_5_06012022/front/html/cart.html";
+        window.location.href = "./cart.html";
     });
     // retourne la nouvelle valeur du tableau
     return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
