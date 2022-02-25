@@ -25,12 +25,13 @@ async function basket() {
             <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="42">
           </div>
           <div class="cart__item__content__settings__delete">
-            <p class="deleteItem" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">Supprimer</p>
+          <button onclick="deleteProduct('${keyStorage._id}')">Click me</button>
           </div>
         </div>
       </div>
     </article>`
   ).join("");
+
  
   //=======================================================
   // Quantité totale des produits(boucle)
@@ -65,13 +66,11 @@ async function basket() {
   // Prix total des produits(affichage page panier)
   // ============================================
   document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
-  console.log(globalPrice);
-  
+  console.log(globalPrice); 
   // ============================================
  
-
   // addQuantity();
-  selectDelete();
+  // selectDelete();
 }
 
 // const addQuantity = async (basket) => {
@@ -87,23 +86,26 @@ async function basket() {
 //   });
 // }
 // ******************* Supprimer Produit **********************************
-
-const selectDelete = async (basket) => {
-  await basket
-  console.log("plus plus");
-  const paragraphDelete = document.querySelectorAll(".deleteItem");
-  console.log(paragraphDelete);
-
-  paragraphDelete.forEach(del => {
-    del.addEventListener("click", function() {
-      let item = JSON.parse(localStorage.getItem("keyStorage"));
-
-      console.log(del);
-      neWItem = item.filter(el => item._id !== del.dataset.id);
-      console.log(item);
-    });
-  });
+function deleteProduct(id) {
+  console.log(id);
 }
+
+// const selectDelete = async (basket) => {
+//   await basket
+//   console.log("plus plus");
+//   const paragraphDelete = document.querySelectorAll(".deleteItem");
+//   console.log(paragraphDelete);
+
+//   paragraphDelete.forEach(del => {
+//     del.addEventListener("click", function() {
+//       let item = JSON.parse(localStorage.getItem("keyStorage"));
+
+//       console.log(del);
+//       neWItem = item.filter(el => item._id !== del.dataset.id);
+//       console.log(item);
+//     });
+//   });
+// }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
@@ -120,7 +122,7 @@ let form = document.querySelector(".cart__order__form");
  * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10. 
  */
  let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
- let secondRegExp = /^[0-9]+[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
+ let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
  let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî]+$/;
  let emailRegExp = /^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$/;
 
@@ -255,7 +257,7 @@ const validEmail = function(verif) {
 
 // ************* Ecouter et Envoyer le formulaire ***************
 form.addEventListener('submit', function(e) {
- 
+  e.preventDefault();
   /** const contact est un objet
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
@@ -273,21 +275,14 @@ form.addEventListener('submit', function(e) {
   }
   // ======================================
   /** Soumission aux conditions de validation
-   * Si les fonctions de validation sont fausses, pas d'envoi du formulaire
-   * Sinon envoi au localeStorage
-   */
-  if(validFirstName(form.firstName) == false){
-    e.preventDefault();
-  }else if(validLastName(form.lastName) == false){
-    e.preventDefault();
-  }else if(validAdress(form.address) == false){
-    e.preventDefault();
-  }else if(validCity(form.city) == false){
-    e.preventDefault();
-  }else if(validEmail(form.email) == false){
-    e.preventDefault();
-  }
-  else {
+   * Si les fonctions de validation sont vraies, envoi du formulaire(dans localStorage)
+  */
+ 
+  if (validFirstName(form.firstName) === true 
+      && validLastName(form.lastName ) === true
+      && validAdress(form.address) === true
+      && validCity(form.city) === true
+      && validEmail(form.email) === true ){
     localStorage.setItem("contact",JSON.stringify(contact));
     form.submit();
   }
