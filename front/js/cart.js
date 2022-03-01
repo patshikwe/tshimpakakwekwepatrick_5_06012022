@@ -1,7 +1,9 @@
 /** keyStorage est la clé stockée dans localStorage
  * Récupérée est assignée dans la variable item
  */
+
 let item = JSON.parse(localStorage.getItem("keyStorage"));
+
 // ======================================================
 // Données panier ===========
 async function basket() {
@@ -22,24 +24,25 @@ async function basket() {
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
             <p>Qté : ${keyStorage.quantity} </p>
-            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="42">
+            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="1">
           </div>
           <div class="cart__item__content__settings__delete">
-          <button onclick="deleteProduct('${keyStorage._id}')">Click me</button>
+          <button class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}">Supprimer</button>
           </div>
         </div>
       </div>
     </article>`
   ).join("");
+    console.log(item[0]);
+    // deleteKey();
 
- 
   //=======================================================
   // Quantité totale des produits(boucle)
   // ====================================
   let sum = 0;
   item;
 
-  if (item == null) {
+  if (item === null) {
     sum = 0;
   }
   else {
@@ -55,7 +58,7 @@ async function basket() {
   // ===============================
   let globalPrice = 0;
 
-  if (item == null) {
+  if (item === null) {
     globalPrice = 0;
   }
   else {
@@ -68,44 +71,38 @@ async function basket() {
   document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
   console.log(globalPrice); 
   // ============================================
- 
-  // addQuantity();
-  // selectDelete();
+
 }
 
-// const addQuantity = async (basket) => {
-//   await basket
-//   console.log("plus plus");
-//   let itemQuantity = document.querySelectorAll(".itemQuantity");
-//   console.log(itemQuantity);
-//   itemQuantity.forEach(add => {
-//     add.addEventListener("change", function() {
-//       console.log(add);
-
-//     });
-//   });
-// }
 // ******************* Supprimer Produit **********************************
+//  Enreigistré panier dans localStorage ------
+function saveBasket(item) {
+  localStorage.setItem("keyStorage", JSON.stringify(item));
+}
+
+/** Suppression produit dans dans le panier et localStorage */
 function deleteProduct(id) {
   console.log(id);
+  item;
+  // const btnDelete = Array.from(document.querySelectorAll(".deleteItem"));
+  item = item.filter(p => p._id != id);
+  console.log(item);
+  saveBasket(item);
+  window.location.href = "./cart.html";
+  if (item.length === 0) {
+    deleteKey();
+  }
 }
+console.log(item);
 
-// const selectDelete = async (basket) => {
-//   await basket
-//   console.log("plus plus");
-//   const paragraphDelete = document.querySelectorAll(".deleteItem");
-//   console.log(paragraphDelete);
+// Supprimer la clé keyStorage dans localStorage -------
+function deleteKey(item) {
+  item;
+  console.log(item);
+  localStorage.removeItem("keyStorage");
+} 
+console.log(item);
 
-//   paragraphDelete.forEach(del => {
-//     del.addEventListener("click", function() {
-//       let item = JSON.parse(localStorage.getItem("keyStorage"));
-
-//       console.log(del);
-//       neWItem = item.filter(el => item._id !== del.dataset.id);
-//       console.log(item);
-//     });
-//   });
-// }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
@@ -121,9 +118,9 @@ let form = document.querySelector(".cart__order__form");
  * 2ème: @ une fois, lettres de a à z minuscules et majuscules, chiffres de 0 à 9, point, underscore et tiret 
  * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10. 
  */
- let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
- let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
- let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî]+$/;
+ let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî'-\s]+$/;
+ let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî'._-\s]+$/;
+ let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî']+$/;
  let emailRegExp = /^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$/;
 
 // ********** Ecouter La modification Pénom *****************
@@ -140,7 +137,7 @@ const validFirstName = function(verif) {
   let  testFirstName = firstRegExp.test(verif.value);
   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
  
-  if (testFirstName == true) {
+  if (testFirstName === true) {
     firstNameErrorMsg.innerHTML = 'Prénom Valide';
     firstNameErrorMsg.style.color = 'lime';
     return true;
@@ -166,7 +163,7 @@ const validLastName = function(verif) {
   let  testLastName = firstRegExp.test(verif.value);
   let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
  
-  if (testLastName == true) {
+  if (testLastName === true) {
     lastNameErrorMsg.innerHTML = 'Nom Valide';
     lastNameErrorMsg.style.color = 'lime';
     return true;
@@ -192,7 +189,7 @@ const validAdress = function(verif) {
   let  testAdress = secondRegExp.test(verif.value);
   let addressErrorMsg = document.getElementById("addressErrorMsg");
  
-  if (testAdress == true) {
+  if (testAdress === true) {
     addressErrorMsg.innerHTML = 'Adresse Valide';
     addressErrorMsg.style.color = 'lime';
     return true;
@@ -218,7 +215,7 @@ const validCity = function(verif) {
   let  testCity = thirdRegExp.test(verif.value);
   let cityErrorMsg = document.getElementById("cityErrorMsg");
  
-  if (testCity == true) {
+  if (testCity === true) {
     cityErrorMsg.innerHTML = 'Ville Valide';
     cityErrorMsg.style.color = 'lime';
     return true;
@@ -243,7 +240,7 @@ const validEmail = function(verif) {
   let  testEmail = emailRegExp.test(verif.value);
   let emailErrorMsg = document.getElementById("emailErrorMsg");
  
-  if (testEmail == true) {
+  if (testEmail === true) {
     emailErrorMsg.innerHTML = 'Email Valide';
     emailErrorMsg.style.color = 'lime';
     return true;
