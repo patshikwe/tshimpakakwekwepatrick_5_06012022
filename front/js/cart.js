@@ -1,8 +1,17 @@
 /** keyStorage est la clé stockée dans localStorage
  * Récupérée est assignée dans la variable item
  */
-
 let item = JSON.parse(localStorage.getItem("keyStorage"));
+// =========================================================
+/** Affichage de la quantité totale et prix total quand le panier est null */
+function quantityPriceNull() {
+  if (item === null) {
+    console.log("Où");
+    document.getElementById("totalQuantity").innerHTML = "0";
+    document.getElementById("totalPrice").innerHTML = "0";
+  }
+}
+quantityPriceNull();
 
 // ======================================================
 // Données panier ===========
@@ -34,44 +43,55 @@ async function basket() {
     </article>`
   ).join("");
     console.log(item[0]);
-
-  //=======================================================
-  // Quantité totale des produits(boucle)
-  // ====================================
-  let totalQuantity = 0;
-  item;
-
-  if (item === null) {
-    sum = 0;
-  }
-  else {
-    for(let i = 0; i < item.length; i++){
-      totalQuantity += item[i].quantity
-    }
-  }
-  // Quantité totale des produits(affichage page panier)
-  // ================================================
-  document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
-    // ==============================================
-  // Prix total des produits(boucle)
-  // ===============================
-  let toalPrice = 0;
-
-  if (item === null) {
-    toalPrice = 0;
-  }
-  else {
-    for(let i = 0; i < item.length; i++){
-      toalPrice += item[i].price * item[i].quantity;
-    }
-  }
-  // Prix total des produits(affichage page panier)
-  // ============================================
-  document.getElementById("totalPrice").innerHTML = `${toalPrice}`;
-  console.log(toalPrice); 
-  // ============================================
+// ----------   -----------------------------
+ 
+  getTotalPrice();
+  getTotalQuantity();
 
 }
+
+// ================ Fonction pour Qauntité Totale et Prix Total =================
+ // Quantité totale des produits(boucle)
+  // ====================================
+  function getTotalQuantity() {
+    let totalQuantity = 0;
+    item;
+    if(item != null){
+      for(let i = 0; i < item.length; i++){
+        totalQuantity += item[i].quantity
+        console.log("Où 2");
+      }
+      document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
+    }
+  }
+   // Prix total des produits(boucle)
+  // ===============================
+ function getTotalPrice() {
+  let totalPrice = 0;
+  if (item != null) {
+    for(let i = 0; i < item.length; i++){
+      totalPrice += item[i].price * item[i].quantity;
+      console.log("Hello! 2")
+    }
+    document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
+  }
+ }
+
+// function totalQuantityNull() {
+//   if (item === null) {
+//     console.log("Où");
+//     document.getElementById("totalQuantity").innerHTML = "0";
+//   }
+// }
+ 
+
+// function totalPriceNull() {
+//   if (item === null) {
+//     console.log('Hello!');
+//     document.getElementById("totalPrice").innerHTML = "0";
+//   }
+// }
+
 
 // ******************* Supprimer Produit **********************************
 //  Enreigistré panier dans localStorage ------
@@ -101,10 +121,6 @@ function deleteKey(item) {
   localStorage.removeItem("keyStorage");
 } 
 console.log(item);
-
-function addPrice(item) {
- 
-}
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
