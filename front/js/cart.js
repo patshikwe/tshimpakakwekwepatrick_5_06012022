@@ -34,12 +34,11 @@ async function basket() {
     </article>`
   ).join("");
     console.log(item[0]);
-    // deleteKey();
 
   //=======================================================
   // Quantité totale des produits(boucle)
   // ====================================
-  let sum = 0;
+  let totalQuantity = 0;
   item;
 
   if (item === null) {
@@ -47,29 +46,29 @@ async function basket() {
   }
   else {
     for(let i = 0; i < item.length; i++){
-      sum += item[i].quantity
+      totalQuantity += item[i].quantity
     }
   }
   // Quantité totale des produits(affichage page panier)
   // ================================================
-  document.getElementById("totalQuantity").innerHTML = `${sum}`;
+  document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
     // ==============================================
   // Prix total des produits(boucle)
   // ===============================
-  let globalPrice = 0;
+  let toalPrice = 0;
 
   if (item === null) {
-    globalPrice = 0;
+    toalPrice = 0;
   }
   else {
     for(let i = 0; i < item.length; i++){
-      globalPrice += item[i].price
+      toalPrice += item[i].price * item[i].quantity;
     }
   }
   // Prix total des produits(affichage page panier)
   // ============================================
-  document.getElementById("totalPrice").innerHTML = `${globalPrice}`;
-  console.log(globalPrice); 
+  document.getElementById("totalPrice").innerHTML = `${toalPrice}`;
+  console.log(toalPrice); 
   // ============================================
 
 }
@@ -103,6 +102,9 @@ function deleteKey(item) {
 } 
 console.log(item);
 
+function addPrice(item) {
+ 
+}
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
