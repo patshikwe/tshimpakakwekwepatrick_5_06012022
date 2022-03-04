@@ -119,8 +119,8 @@ let form = document.querySelector(".cart__order__form");
  * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10. 
  */
  let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
- let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
- let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî]+$/;
+ let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî'._-\s]+$/;
+ let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî']+$/;
  let emailRegExp = /^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$/;
 
 // ********** Ecouter La modification Pénom *****************
@@ -255,6 +255,7 @@ const validEmail = function(verif) {
 // ************* Ecouter et Envoyer le formulaire dans localStorage ***************
 form.addEventListener('submit', function(e) {
   e.preventDefault();
+
   /** const contact est un objet
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
@@ -270,7 +271,6 @@ form.addEventListener('submit', function(e) {
  
     email : document.querySelector("#email").value,
   }
- 
   // ======================================
   /** Soumission aux conditions de validation
    * Si les fonctions de validation sont vraies et item est différent de null,
@@ -295,50 +295,63 @@ form.addEventListener('submit', function(e) {
 
 // --------------- Envoyer vers API --------------------------
 
- sendToApi = () => { 
+async function sendToApi() { 
   item;
+  console.log(item);
   // Créeé un tableau uniquement avec les id par la méthode map ---------
-  let arrayOfId = item.map(el => {
+  let products = item.map(el => {
     return el._id
   })
-  console.log(arrayOfId); 
-  // --------------------------------------------------------------------
-   /** const contact est un objet
+  console.log(products); 
+// -----------------------
+/** const contact est un objet
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
    */
-    const contact = {
-      firstName : document.querySelector("#firstName").value,
+ const contact = {
+  firstName : document.querySelector("#firstName").value,
 
-      lastName : document.querySelector("#lastName").value,
-  
-      address : document.querySelector("#address").value,
-  
-      city : document.querySelector("#city").value,
-  
-      email : document.querySelector("#email").value,
-    }
+  lastName : document.querySelector("#lastName").value,
 
-  console.log(contact);  
-  fetch("http://localhost:3000/api/products/order", {
+  address : document.querySelector("#address").value,
+
+  city : document.querySelector("#city").value,
+
+  email : document.querySelector("#email").value,
+}
+// -----------------------------------------------
+  const send = {
+    contact,
+    products
+  }
+  console.log(send);
+  // --------------------------------------------------------------------
+    let responseId = [];
+ await fetch("http://localhost:3000/api/products/order", {
     method: "POST",
     headers: {
       'Accept': 'application/json', 
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(contact, arrayOfId)
+    body: JSON.stringify(send)
   })
-  .then(function(res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then(function(value) {
-      document
-        .getElementById("order")
-        .innerText = value.postData.text;
+  .then((res) => res.json())
+  .then((data) => {
+    responseId = data;
+    console.log(responseId);
+    // document.getElementById("orderId").innerHTML = responseId.orderId;
+    // window.location.href = "./confirmation.html";
+    return responseId
+
   });
+
 }
+
+// function confirm () {
+  // let orderDisplay = JSON.parse(localStorage.getItem("response"))
+  // document.querySelector("#orderId").innerHTML = `${orderDisplay.orderId}`;
+  // window.location.href = "./confirmation.html";
+// }
 
 
 // =================================================================
@@ -347,6 +360,5 @@ form.addEventListener('submit', function(e) {
 
 function init() {
     basket();
-    // sendToApi();
 }
 

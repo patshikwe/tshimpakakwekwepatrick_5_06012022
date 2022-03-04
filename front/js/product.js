@@ -18,7 +18,7 @@ async function fetchProduct() {
         .then((res) => res.json())
         .then((res2) => {
             product = res2
-            console.log(product)
+            console.log(product);
         })
     return product
 }
