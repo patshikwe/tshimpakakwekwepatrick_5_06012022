@@ -339,19 +339,19 @@ async function sendToApi() {
   .then((data) => {
     responseId = data;
     console.log(responseId);
-    // document.getElementById("orderId").innerHTML = responseId.orderId;
+    // let order = document.getElementById("orderId");
+    // order.innerHTML = responseId.orderId;
     // window.location.href = "./confirmation.html";
-    return responseId
-
+    // return responseId
+    const myTimeout = setTimeout(confirm, 5000);
   });
-
+  function confirm () {
+    document.getElementById("orderId").innerHTML = responseId.orderId;
+    window.location.href = "./confirmation.html";
+  }
 }
 
-// function confirm () {
-  // let orderDisplay = JSON.parse(localStorage.getItem("response"))
-  // document.querySelector("#orderId").innerHTML = `${orderDisplay.orderId}`;
-  // window.location.href = "./confirmation.html";
-// }
+
 
 
 // =================================================================
