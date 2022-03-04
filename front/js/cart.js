@@ -36,62 +36,45 @@ async function basket() {
             <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="1">
           </div>
           <div class="cart__item__content__settings__delete">
-          <button class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}">Supprimer</button>
+          <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}">Supprimer</p>
           </div>
         </div>
       </div>
     </article>`
   ).join("");
-    console.log(item[0]);
-// ----------   -----------------------------
- 
+
+// ---------------------------------------------------
+//  Appel fonctions pour quantité totale et prix total
+// ---------------------------------------------------
   getTotalPrice();
   getTotalQuantity();
-
+ 
 }
 
 // ================ Fonction pour Qauntité Totale et Prix Total =================
  // Quantité totale des produits(boucle)
-  // ====================================
+  // ----------------------------------
   function getTotalQuantity() {
     let totalQuantity = 0;
     item;
-    if(item != null){
+    if(item !== null){
       for(let i = 0; i < item.length; i++){
         totalQuantity += item[i].quantity
-        console.log("Où 2");
       }
       document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
     }
   }
    // Prix total des produits(boucle)
-  // ===============================
+  // --------------------------------
  function getTotalPrice() {
   let totalPrice = 0;
-  if (item != null) {
+  if (item !== null) {
     for(let i = 0; i < item.length; i++){
       totalPrice += item[i].price * item[i].quantity;
-      console.log("Hello! 2")
     }
     document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
   }
  }
-
-// function totalQuantityNull() {
-//   if (item === null) {
-//     console.log("Où");
-//     document.getElementById("totalQuantity").innerHTML = "0";
-//   }
-// }
- 
-
-// function totalPriceNull() {
-//   if (item === null) {
-//     console.log('Hello!');
-//     document.getElementById("totalPrice").innerHTML = "0";
-//   }
-// }
-
 
 // ******************* Supprimer Produit **********************************
 //  Enreigistré panier dans localStorage ------
@@ -103,7 +86,6 @@ function saveBasket(item) {
 function deleteProduct(id) {
   console.log(id);
   item;
-  // const btnDelete = Array.from(document.querySelectorAll(".deleteItem"));
   item = item.filter(p => p._id != id);
   console.log(item);
   saveBasket(item);
@@ -136,9 +118,9 @@ let form = document.querySelector(".cart__order__form");
  * 2ème: @ une fois, lettres de a à z minuscules et majuscules, chiffres de 0 à 9, point, underscore et tiret 
  * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10. 
  */
- let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî'-\s]+$/;
- let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî'._-\s]+$/;
- let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî']+$/;
+ let firstRegExp = /^[a-zA-ZÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî-\s]+$/;
+ let secondRegExp = /^[a-zA-Z0-9ÅåÄàäôÖöØøÆæçÉéÈèùÜüÊêÛûÎî._-\s]+$/;
+ let thirdRegExp = /^[a-zA-ZÅåÄàäÖöØøÆæçÉéÈèùÜüÊêÛûÎî]+$/;
  let emailRegExp = /^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$/;
 
 // ********** Ecouter La modification Pénom *****************
@@ -270,7 +252,7 @@ const validEmail = function(verif) {
   }
 };
 
-// ************* Ecouter et Envoyer le formulaire ***************
+// ************* Ecouter et Envoyer le formulaire dans localStorage ***************
 form.addEventListener('submit', function(e) {
   e.preventDefault();
   /** const contact est un objet
@@ -278,31 +260,85 @@ form.addEventListener('submit', function(e) {
    * value correpond à la saisie du champ de formulaire par l'utilisateur
    */
    const contact = {
-    prenom : document.querySelector("#firstName").value,
+    firstName : document.querySelector("#firstName").value,
 
-    nom : document.querySelector("#lastName").value,
+    lastName : document.querySelector("#lastName").value,
  
-    adresse : document.querySelector("#address").value,
+    address : document.querySelector("#address").value,
  
     city : document.querySelector("#city").value,
  
-    mail : document.querySelector("#email").value,
+    email : document.querySelector("#email").value,
   }
+ 
   // ======================================
   /** Soumission aux conditions de validation
-   * Si les fonctions de validation sont vraies, envoi du formulaire(dans localStorage)
+   * Si les fonctions de validation sont vraies et item est différent de null,
+   * envoi du formulaire(dans localStorage)
+   * appel fonction sendToApi pour envoyer dans l'API
   */
- 
+  item;
+ console.log(item);
   if (validFirstName(form.firstName) === true 
       && validLastName(form.lastName ) === true
       && validAdress(form.address) === true
       && validCity(form.city) === true
-      && validEmail(form.email) === true ){
+      && validEmail(form.email) === true 
+      && item !== null){
     localStorage.setItem("contact",JSON.stringify(contact));
-    form.submit();
+    sendToApi();
+  }else {
+    console.log("Pas parti!");
   }
   
 });
+
+// --------------- Envoyer vers API --------------------------
+
+ sendToApi = () => { 
+  item;
+  // Créeé un tableau uniquement avec les id par la méthode map ---------
+  let arrayOfId = item.map(el => {
+    return el._id
+  })
+  console.log(arrayOfId); 
+  // --------------------------------------------------------------------
+   /** const contact est un objet
+   * chaque clé appelle une méthode qui récupère son id
+   * value correpond à la saisie du champ de formulaire par l'utilisateur
+   */
+    const contact = {
+      firstName : document.querySelector("#firstName").value,
+
+      lastName : document.querySelector("#lastName").value,
+  
+      address : document.querySelector("#address").value,
+  
+      city : document.querySelector("#city").value,
+  
+      email : document.querySelector("#email").value,
+    }
+
+  console.log(contact);  
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(contact, arrayOfId)
+  })
+  .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then(function(value) {
+      document
+        .getElementById("order")
+        .innerText = value.postData.text;
+  });
+}
 
 
 // =================================================================
@@ -311,5 +347,6 @@ form.addEventListener('submit', function(e) {
 
 function init() {
     basket();
+    // sendToApi();
 }
 
