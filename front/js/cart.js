@@ -2,11 +2,14 @@
  * Récupérée est assignée dans la variable item
  */
 let item = JSON.parse(localStorage.getItem("keyStorage"));
-// =========================================================
+// ========================================================
+let order = document.getElementById("orderId");
+console.log(order);
+// alert("Page Confirmation");
+// ========================================================
 /** Affichage de la quantité totale et prix total quand le panier est null */
 function quantityPriceNull() {
   if (item === null) {
-    console.log("Où");
     document.getElementById("totalQuantity").innerHTML = "0";
     document.getElementById("totalPrice").innerHTML = "0";
   }
@@ -48,6 +51,8 @@ async function basket() {
 // ---------------------------------------------------
   getTotalPrice();
   getTotalQuantity();
+
+  changeQuantity();
  
 }
 
@@ -75,6 +80,31 @@ async function basket() {
     document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
   }
  }
+//  ================= Function pour modifier quantité des produits =======
+/**Ajouter quantity */
+function changeQuantity(basket) {
+  item;
+  let itemQuantity = document.querySelectorAll(".itemQuantity");
+  itemQuantity.forEach((pos) => {
+    pos.addEventListener("change", function() {
+      console.log(pos);
+      for (i = 0; i < item.length; i++) {
+        if (item[i]._id === pos.dataset.id
+          && item[i].choiceColor === pos.dataset.color) {
+          return (
+            item[i].quantity++,
+            console.log(item[i].quantity),
+            localStorage.setItem("keyStorage", JSON.stringify(item)),
+            (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
+            textContent = item[i].quantity),
+            window.location.href = "./cart.html"
+          );
+        }        
+      }
+    })
+  });
+}
+
 
 // ******************* Supprimer Produit **********************************
 //  Enreigistré panier dans localStorage ------
@@ -255,7 +285,7 @@ const validEmail = function(verif) {
 // ************* Ecouter et Envoyer le formulaire dans localStorage ***************
 form.addEventListener('submit', function(e) {
   e.preventDefault();
-
+  
   /** const contact est un objet
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
@@ -286,48 +316,47 @@ form.addEventListener('submit', function(e) {
       && validEmail(form.email) === true 
       && item !== null){
     localStorage.setItem("contact",JSON.stringify(contact));
-    sendToApi();
+    fetchOrder();
   }else {
-    console.log("Pas parti!");
+    alert("Pas de panier vide et les champs du formulaire doivent être remplis correctement");
   }
   
 });
-
+// ===========================================================
 // --------------- Envoyer vers API --------------------------
-
-async function sendToApi() { 
-  item;
-  console.log(item);
-  // Créeé un tableau uniquement avec les id par la méthode map ---------
+async function fetchOrder () {
+/** const contact est un objet
+ * chaque clé appelle une méthode qui récupère son id
+ * value correpond à la saisie du champ de formulaire par l'utilisateur
+ */
+ const contact = {
+  firstName : document.querySelector("#firstName").value,
+  
+  lastName : document.querySelector("#lastName").value,
+  
+  address : document.querySelector("#address").value,
+  
+  city : document.querySelector("#city").value,
+  
+  email : document.querySelector("#email").value,
+  }
+   console.log(contact);
+  // ---------------------------------------------------------------
+  // Créeé un tableau uniquement avec les id par la méthode map ---
   let products = item.map(el => {
     return el._id
   })
   console.log(products); 
-// -----------------------
-/** const contact est un objet
-   * chaque clé appelle une méthode qui récupère son id
-   * value correpond à la saisie du champ de formulaire par l'utilisateur
-   */
- const contact = {
-  firstName : document.querySelector("#firstName").value,
-
-  lastName : document.querySelector("#lastName").value,
-
-  address : document.querySelector("#address").value,
-
-  city : document.querySelector("#city").value,
-
-  email : document.querySelector("#email").value,
-}
-// -----------------------------------------------
+  // ---------------------------------------------
+  //  
   const send = {
     contact,
     products
   }
-  console.log(send);
-  // --------------------------------------------------------------------
-    let responseId = [];
- await fetch("http://localhost:3000/api/products/order", {
+    console.log(send);
+
+  let responseId = [];
+  await fetch("http://localhost:3000/api/products/order", {
     method: "POST",
     headers: {
       'Accept': 'application/json', 
@@ -336,20 +365,25 @@ async function sendToApi() {
     body: JSON.stringify(send)
   })
   .then((res) => res.json())
-  .then((data) => {
-    responseId = data;
-    console.log(responseId);
-    // let order = document.getElementById("orderId");
-    // order.innerHTML = responseId.orderId;
-    // window.location.href = "./confirmation.html";
-    // return responseId
-    const myTimeout = setTimeout(confirm, 5000);
-  });
-  function confirm () {
-    document.getElementById("orderId").innerHTML = responseId.orderId;
-    window.location.href = "./confirmation.html";
-  }
+    .then(function (data) {
+        responseId = data;
+        console.log(responseId);
+        console.log(responseId.orderId);
+        return responseId;
+    });
+   
+    confirm();
 }
+   
+  function confirm (responseId) {
+    console.log("Oups!!!")
+    responseId,
+    console.log(responseId);
+    window.location.href = "./confirmation.html";
+    order.innerHTML = `${responseId.orderId}`;
+  }
+
+
 
 
 

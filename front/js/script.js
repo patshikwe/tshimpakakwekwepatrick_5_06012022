@@ -10,7 +10,6 @@
 async function fetchData() {
     let data = [];
     await fetch("http://localhost:3000/api/products")
-        // .then((res) => res.json())
         .then((res2) => {
             data = res2.json()
             console.log(data);

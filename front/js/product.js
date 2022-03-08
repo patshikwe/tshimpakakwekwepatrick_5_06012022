@@ -10,7 +10,6 @@ console.log(idProduct);
  * idProduct correspond à l'id du produit sélectionné;
  * ici la variable product stocke les données d'un produit(c'est un tableau).
 */
-
 let product = [];
 
 async function fetchProduct() {
