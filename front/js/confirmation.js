@@ -1,11 +1,11 @@
 
+let responseId = JSON.parse(localStorage.getItem("dataRes"));
+console.log(responseId);
 
 function confirm () {
+    let orderId = responseId.orderId;
     let order = document.getElementById("orderId");
-    console.log(order);
-    // deleteKey();
-    console.log("Hello!");
-    // localStorage.setItem("dataRes", JSON.stringify(responseId));
+    order.textContent = orderId;
   }
 
   // =================================================================
