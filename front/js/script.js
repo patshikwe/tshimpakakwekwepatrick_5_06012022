@@ -23,23 +23,21 @@ async function fetchData() {
 const createLink = async () => {
    const data = await fetchData();
 
-document.getElementById("items").innerHTML = data.map((product)=> 
-`<a href="./product.html?id=${product._id}">
-<article>
-  <img src="${product.imageUrl}" alt="${product.altTxt}">
-  <h3 class="productName">${product.name}</h3>
-  <p class="productDescription">${product.description}</p>
-</article>
-</a>`
-).join("");
-
+    document.getElementById("items").innerHTML = data.map((product)=> 
+        `<a href="./product.html?id=${product._id}">
+        <article>
+        <img src="${product.imageUrl}" alt="${product.altTxt}">
+        <h3 class="productName">${product.name}</h3>
+        <p class="productDescription">${product.description}</p>
+        </article>
+        </a>`
+    ).join("");
 }
-
+ 
 // =================================================
 /** La fonction init regroupe tous les appels de fonctions.
  * Cette fontion est appelée à partir du body de la page index.html */
 
 function init() {
-    console.log(init);
     createLink();
 }

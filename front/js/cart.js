@@ -47,9 +47,9 @@ async function basket() {
 // ---------------------------------------------------
   getTotalPrice();
   getTotalQuantity();
-
+// ---------------------------------------------------
+// Appel fonction pour modifier la quantité ================
   changeQuantity();
- 
 }
 
 // ================ Fonction pour Qauntité Totale et Prix Total =================
@@ -366,7 +366,7 @@ async function fetchOrder () {
         console.log(responseId);
         localStorage.setItem("dataRes", JSON.stringify(responseId));
         deleteKey();
-        window.location.href = "./confirmation.html";
+        window.location.replace("./confirmation.html");
         return responseId;
     });
 }
