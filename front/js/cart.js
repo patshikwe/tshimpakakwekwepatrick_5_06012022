@@ -32,7 +32,7 @@ async function basket() {
         <div class="cart__item__content__settings">
           <div class="cart__item__content__settings__quantity">
             <p>Qté : ${keyStorage.quantity} </p>
-            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="1">
+            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="${keyStorage.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
           <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}">Supprimer</p>
@@ -67,15 +67,15 @@ async function basket() {
   }
    // Prix total des produits(boucle)
   // --------------------------------
- function getTotalPrice() {
-  let totalPrice = 0;
-  if (item !== null) {
-    for(let i = 0; i < item.length; i++){
-      totalPrice += item[i].price * item[i].quantity;
+  function getTotalPrice() {
+    let totalPrice = 0;
+    if (item !== null) {
+      for(let i = 0; i < item.length; i++){
+        totalPrice += item[i].price * item[i].quantity;
+      }
+      document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
     }
-    document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
   }
- }
 //  ================= Function pour modifier quantité des produits =======
 /**Ajouter quantity */
 function changeQuantity(basket) {
@@ -314,7 +314,7 @@ form.addEventListener('submit', function(e) {
     localStorage.setItem("contact",JSON.stringify(contact));
     fetchOrder();
   }else {
-    alert("Pas de panier vide et les champs du formulaire doivent être remplis correctement");
+    alert("Votre panier ne doit pas être vide et le formulaire complété");
   }
   
 });
