@@ -3,10 +3,6 @@
  */
 let item = JSON.parse(localStorage.getItem("keyStorage"));
 // ========================================================
-let order = document.getElementById("orderId");
-console.log(order);
-// alert("Page Confirmation");
-// ========================================================
 /** Affichage de la quantité totale et prix total quand le panier est null */
 function quantityPriceNull() {
   if (item === null) {
@@ -368,26 +364,13 @@ async function fetchOrder () {
     .then(function (data) {
         responseId = data;
         console.log(responseId);
-        console.log(responseId.orderId);
+        localStorage.setItem("dataRes", JSON.stringify(responseId));
+        deleteKey();
+        window.location.href = "./confirmation.html";
         return responseId;
     });
-   
-    confirm();
 }
    
-  function confirm (responseId) {
-    console.log("Oups!!!")
-    responseId,
-    console.log(responseId);
-    window.location.href = "./confirmation.html";
-    order.innerHTML = `${responseId.orderId}`;
-  }
-
-
-
-
-
-
 // =================================================================
 /** La fonction init regroupe tous les appels de fonctions.
  * Cette fontion est appelée à partir du body de la page cart.html */
