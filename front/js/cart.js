@@ -3,7 +3,7 @@
  */
 let item = JSON.parse(localStorage.getItem("keyStorage"));
 // ========================================================
-/** Affichage de la quantité totale et prix total quand le panier est null */
+/** Affichage de la quantité totale et prix total quand le panier est vide */
 function quantityPriceNull() {
   if (item === null) {
     document.getElementById("totalQuantity").innerHTML = "0";
@@ -13,7 +13,7 @@ function quantityPriceNull() {
 quantityPriceNull();
 
 // ======================================================
-// Données panier ===========
+// Données panier, implémentation de la carte ===========
 async function basket() {
     await item;
     console.log(item);
@@ -76,26 +76,38 @@ async function basket() {
       document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
     }
   }
-//  ================= Function pour modifier quantité des produits =======
-/**Ajouter quantity */
+//  ================= Function pour modifier la quantité des produits =======
+/**Quantité plus
+ * Quantité moins
+ */
 function changeQuantity(basket) {
   item;
   let itemQuantity = document.querySelectorAll(".itemQuantity");
-  itemQuantity.forEach((pos) => {
-    pos.addEventListener("change", function() {
-      console.log(pos);
+  let input = document.querySelectorAll(".itemQuantity");
+  itemQuantity.forEach((el) => {
+    el.addEventListener("change", function() {
       for (i = 0; i < item.length; i++) {
-        if (item[i]._id === pos.dataset.id
-          && item[i].choiceColor === pos.dataset.color) {
+        if (item[i]._id === el.dataset.id
+          && item[i].choiceColor === el.dataset.color
+          && item[i].quantity < input[i].value) {
           return (
             item[i].quantity++,
-            console.log(item[i].quantity),
             localStorage.setItem("keyStorage", JSON.stringify(item)),
             (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
             textContent = item[i].quantity),
             window.location.href = "./cart.html"
           );
-        }        
+        }else if (item[i]._id === el.dataset.id
+            && item[i].choiceColor === el.dataset.color
+            && item[i].quantity > input[i].value) {
+            return (
+              item[i].quantity--,
+              localStorage.setItem("keyStorage", JSON.stringify(item)),
+              (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
+              textContent = item[i].quantity),
+              window.location.href = "./cart.html"
+            );
+          }      
       }
     })
   });
