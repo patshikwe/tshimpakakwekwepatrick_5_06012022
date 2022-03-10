@@ -112,6 +112,27 @@ const addProduct =  () => {
     // retourne la nouvelle valeur du tableau
     return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
 };
+// ======================  ======================
+
+// const changeQuantity = () => {
+//     product;
+//     console.log(product);
+//     let itemQuantity = document.querySelector(".itemQuantity");
+//     let input = document.querySelectorAll(".itemQuantity");
+//     console.log("Hello!");
+
+//    for ( i = 0; i < product.length; i++) {
+//         itemQuantity.addEventListener("change", function() {
+//             if (arrayProducts[i]._id == product._id
+//                 && arrayProducts[i].choiceColor === select.value 
+//                 && arrayProducts[i].quantity < input[i].value) {
+//                     console.log("plus!"),
+//                     arrayProducts.quantity++,
+//                     localStorage.setItem("keyStorage", JSON.stringify(arrayProducts));
+//             }
+//         });
+//     }    
+// }
 
 // // ===========================================
 /** La fonction init regroupe tous les appels de fonctions.

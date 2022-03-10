@@ -1,15 +1,16 @@
-/** dataRes est la clé stockée dans localStorage
- * Récupérée est assignée dans la variable responseId
+/**
  */
-let responseId = JSON.parse(localStorage.getItem("dataRes"));
+ let params = new URLSearchParams(window.location.search);
+ let orderId = params.get("orderId");
+ console.log(orderId);
 // ===========================================================
 /** Fonction pour afficher le numéro de commande 
  * orderId est une variable qui a pour valeur le numéro de commande
  * order a pour valeur l'id du paragraphe pour afficher le numéro
- * textcontent est méthode d'affichage
+ * textcontent est la méthode d'affichage
 */
 function confirm () {
-    let orderId = responseId.orderId;
+    orderId;
     let order = document.getElementById("orderId");
     order.textContent = orderId;
   }

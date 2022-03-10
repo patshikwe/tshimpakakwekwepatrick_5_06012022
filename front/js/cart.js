@@ -94,8 +94,7 @@ function changeQuantity(basket) {
             item[i].quantity++,
             localStorage.setItem("keyStorage", JSON.stringify(item)),
             (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
-            textContent = item[i].quantity),
-            window.location.href = "./cart.html"
+            textContent = item[i].quantity), getTotalQuantity(), getTotalPrice()
           );
         }else if (item[i]._id === el.dataset.id
             && item[i].choiceColor === el.dataset.color
@@ -104,8 +103,7 @@ function changeQuantity(basket) {
               item[i].quantity--,
               localStorage.setItem("keyStorage", JSON.stringify(item)),
               (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
-              textContent = item[i].quantity),
-              window.location.href = "./cart.html"
+              textContent = item[i].quantity), getTotalQuantity(), getTotalPrice()
             );
           }      
       }
@@ -375,10 +373,8 @@ async function fetchOrder () {
   .then((res) => res.json())
     .then(function (data) {
         responseId = data;
-        console.log(responseId);
-        localStorage.setItem("dataRes", JSON.stringify(responseId));
-        deleteKey();
-        window.location.replace("./confirmation.html");
+        console.log(responseId.orderId);
+        window.location.replace(`./confirmation.html?orderId=${responseId.orderId}`);
         return responseId;
     });
 }
