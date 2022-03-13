@@ -47,18 +47,27 @@ const productSelect = async () => {
     tagOption.innerHTML = `${colorName}`;
     tagOption.value = `${colorName}`;
    });
-   addProduct(product);
+    
+   addProduct(); 
+//    changeQuantity();
 };
 
 // ==================================================
+// Sauvegarder panier dans localStorage -------------
+function saveBasket(item) {
+    localStorage.setItem("keyStorage", JSON.stringify(item));
+}
 
-const addProduct =  () => {
+// ============  ===============================
+
+function addProduct() {
+
     let buttonProduct = document.getElementById("addToCart");
+    let input = document.querySelector("#quantity");
     console.log(buttonProduct);
-
-    buttonProduct.addEventListener("click", (e) => {
-        //Récupéré le tableau dans localStorage
-        let arrayProducts = JSON.parse(localStorage.getItem("keyStorage"));
+    
+    buttonProduct.addEventListener(("click"), (e) => {
+        let item = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("colors");
 
         /** selectColor est une variable par la quelle est assignée des éléments
@@ -68,71 +77,68 @@ const addProduct =  () => {
         const selectColor = Object.assign({}, product, {
             choiceColor : `${select.value}`,
             quantity : 1,
+            
         }); 
-         console.log(selectColor);
-     
-        // Ajout un produit dans localStorage
-        if (arrayProducts == null) {
-            arrayProducts = [];
-            arrayProducts.push(selectColor);
-            console.log(arrayProducts);
-            localStorage.setItem("keyStorage", JSON.stringify(arrayProducts));
-        }
-         else  {
-            for (i = 0; i < arrayProducts.length; i++){
-                if (arrayProducts[i]._id == product._id && 
-                    arrayProducts[i].choiceColor == select.value){
-                        window.location.href = "./cart.html";
-                    return (
-                        arrayProducts[i].quantity++,
-                        console.log("quantity++"),
-                        localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
-                        arrayProducts = JSON.parse(localStorage.getItem("keyStorage"))
-                    );
+    
+        if (item === null) {
+            item = [];
+            if (select.value == "") {
+                item = [];
+                console.log(select.value);
+            }else {
+                item.push(selectColor);
+                saveBasket(item);
+                console.log(select.value);
+                console.log(item);
+            }
+            
+        } else if (item !== null ) {
+            if (select.value == "") {
+                item = [];
+                console.log("color?");
+            }
+            console.log("Où?");
+            console.log(item);
+            for (i = 0; i < item.length; i++){
+                console.log(product);
+                if (item[i]._id === product._id && 
+                    item[i].choiceColor === select.value){
+                    item[i].quantity++;
+                    console.log("quantity");
+                    saveBasket(item);
+                    console.log("Is ok!");
+                    return (item = JSON.parse(localStorage.getItem("keyStorage")),
+                        window.location.href = "./cart.html");
                 }
             }
-            for (i = 0; i < arrayProducts.length; i++){
-                if(
-                    (arrayProducts[i]._id == product._id && 
-                    arrayProducts[i].choiceColor != select.value) || 
-                    arrayProducts[i]._id != product._id
-                    ){
-                        window.location.href = "./cart.html";
-                    return (
-                        arrayProducts.push(selectColor),
-                        localStorage.setItem("keyStorage",JSON.stringify(arrayProducts)),
-                        arrayProducts = JSON.parse(localStorage.getItem("keyStorage"))
-                    );
+            for (i = 0; i < item.length; i++) {
+                if((item[i]._id === product._id && 
+                    item[i].choiceColor !== select.value) || 
+                    item[i]._id !== product._id){
+                    item.push(selectColor);
+                    console.log("Oufff!")
+                    saveBasket(item);
+                    return (item = JSON.parse(localStorage.getItem("keyStorage")),
+                        window.location.href = "./cart.html");
                 }
             }
         }
-       
         window.location.href = "./cart.html";
     });
-    // retourne la nouvelle valeur du tableau
-    return (arrayProducts = JSON.parse(localStorage.getItem("keyStorage")));
-};
+    return (item = JSON.parse(localStorage.getItem("keyStorage")));
+}
+
 // ======================  ======================
+document.querySelector("#quantity").addEventListener(("change"), () => {
+    let input = document.querySelector("#quantity");
+        console.log(input.value);
+        console.log(item);
+});
 
-// const changeQuantity = () => {
-//     product;
-//     console.log(product);
-//     let itemQuantity = document.querySelector(".itemQuantity");
-//     let input = document.querySelectorAll(".itemQuantity");
-//     console.log("Hello!");
-
-//    for ( i = 0; i < product.length; i++) {
-//         itemQuantity.addEventListener("change", function() {
-//             if (arrayProducts[i]._id == product._id
-//                 && arrayProducts[i].choiceColor === select.value 
-//                 && arrayProducts[i].quantity < input[i].value) {
-//                     console.log("plus!"),
-//                     arrayProducts.quantity++,
-//                     localStorage.setItem("keyStorage", JSON.stringify(arrayProducts));
-//             }
-//         });
-//     }    
-// }
+function changeQuantity () {
+    product;
+    console.log(product);
+}
 
 // // ===========================================
 /** La fonction init regroupe tous les appels de fonctions.

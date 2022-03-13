@@ -8,7 +8,9 @@ function quantityPriceNull() {
   if (item === null) {
     document.getElementById("totalQuantity").innerHTML = "0";
     document.getElementById("totalPrice").innerHTML = "0";
+    console.log(totalQuantity);
   }
+  console.log(totalQuantity);
 }
 quantityPriceNull();
 
@@ -60,9 +62,10 @@ async function basket() {
     item;
     if(item !== null){
       for(let i = 0; i < item.length; i++){
-        totalQuantity += item[i].quantity
+        totalQuantity += item[i].quantity;
       }
       document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
+      console.log(totalQuantity);
     }
   }
    // Prix total des produits(boucle)
