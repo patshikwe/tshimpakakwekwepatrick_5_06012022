@@ -49,7 +49,7 @@ const productSelect = async () => {
    });
     
    addProduct(); 
-//    changeQuantity();
+   changeQuantity();
 };
 
 // ==================================================
@@ -74,15 +74,15 @@ function addProduct() {
          * choiceColor(la couleur choisie) et quantity(la quantité du produit de même id)
          * selectColor est un élément de product(tableau)
          */
+        let quantity = 1;
         const selectColor = Object.assign({}, product, {
             choiceColor : `${select.value}`,
-            quantity : 1,
-            
+            quantity : quantity * input.value,
         }); 
     
         if (item === null) {
             item = [];
-            if (select.value == "") {
+            if (select.value === "") {
                 item = [];
                 console.log(select.value);
             }else {
@@ -93,7 +93,7 @@ function addProduct() {
             }
             
         } else if (item !== null ) {
-            if (select.value == "") {
+            if (select.value === "") {
                 item = [];
                 console.log("color?");
             }
@@ -103,7 +103,8 @@ function addProduct() {
                 console.log(product);
                 if (item[i]._id === product._id && 
                     item[i].choiceColor === select.value){
-                    item[i].quantity++;
+                    let cost = 1 * input.value;
+                    item[i].quantity += cost;
                     console.log("quantity");
                     saveBasket(item);
                     console.log("Is ok!");
@@ -129,15 +130,16 @@ function addProduct() {
 }
 
 // ======================  ======================
-document.querySelector("#quantity").addEventListener(("change"), () => {
-    let input = document.querySelector("#quantity");
-        console.log(input.value);
-        console.log(item);
-});
+
 
 function changeQuantity () {
     product;
     console.log(product);
+    document.querySelector("#quantity").addEventListener(("change"), () => {
+    let input = document.querySelector("#quantity");
+        console.log(input.value);
+        console.log(item);
+    });
 }
 
 // // ===========================================
