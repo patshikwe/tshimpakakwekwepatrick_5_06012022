@@ -34,7 +34,7 @@ async function basket() {
             <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="${keyStorage.quantity}">
           </div>
           <div class="cart__item__content__settings__delete">
-          <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}">Supprimer</p>
+          <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">Supprimer</p>
           </div>
         </div>
       </div>
@@ -122,7 +122,18 @@ function saveBasket(item) {
 function deleteProduct(id) {
   console.log(id);
   item;
+  // for (i = 0; i < item.length; i++) {
+  //   console.log("option1");
+  //   if (item[i]._id === id && item[i].choiceColor === item[i].choiceColor.value) {
+  //     console.log("execute option1");
+  //     item = item.filter(p => p._id != id);
+  //     console.log("fin option1");
+  //   }
+  // }
+
+  
   item = item.filter(p => p._id != id);
+  console.log("option2");
   console.log(item);
   saveBasket(item);
   window.location.href = "./cart.html";

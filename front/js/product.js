@@ -43,7 +43,7 @@ const productSelect = async () => {
    product.colors.forEach(colorName => {
     let tagOption = document.createElement("option");
 
-    document.querySelector("select#colors").appendChild(tagOption);
+    document.querySelector("select#color-select").appendChild(tagOption);
     tagOption.innerHTML = `${colorName}`;
     tagOption.value = `${colorName}`;
    });
@@ -62,11 +62,11 @@ function saveBasket(item) {
 function addProduct() {
 
     let buttonProduct = document.getElementById("addToCart");
-    let input = document.querySelector("#quantity");
+    let input = document.querySelector("#itemQuantity");
     
     buttonProduct.addEventListener(("click"), (e) => {
         let item = JSON.parse(localStorage.getItem("keyStorage"));
-        let select = document.getElementById("colors");
+        let select = document.getElementById("color-select");
 
         /** selectColor est une variable par la quelle est assignée des éléments
          * choiceColor(la couleur choisie) et quantity(la quantité du produit de même id)
