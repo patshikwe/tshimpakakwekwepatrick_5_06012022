@@ -8,9 +8,7 @@ function quantityPriceNull() {
   if (item === null) {
     document.getElementById("totalQuantity").innerHTML = "0";
     document.getElementById("totalPrice").innerHTML = "0";
-    console.log(totalQuantity);
   }
-  console.log(totalQuantity);
 }
 quantityPriceNull();
 
@@ -18,7 +16,6 @@ quantityPriceNull();
 // Données panier, implémentation de la carte ===========
 async function basket() {
     await item;
-    console.log(item);
 
   document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
   ` <article class="cart__item" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">

@@ -49,7 +49,6 @@ const productSelect = async () => {
    });
     
    addProduct(); 
-   changeQuantity();
 };
 
 // ==================================================
@@ -64,7 +63,6 @@ function addProduct() {
 
     let buttonProduct = document.getElementById("addToCart");
     let input = document.querySelector("#quantity");
-    console.log(buttonProduct);
     
     buttonProduct.addEventListener(("click"), (e) => {
         let item = JSON.parse(localStorage.getItem("keyStorage"));
@@ -84,30 +82,21 @@ function addProduct() {
             item = [];
             if (select.value === "") {
                 item = [];
-                console.log(select.value);
             }else {
                 item.push(selectColor);
                 saveBasket(item);
-                console.log(select.value);
-                console.log(item);
             }
             
         } else if (item !== null ) {
             if (select.value === "") {
                 item = [];
-                console.log("color?");
             }
-            console.log("Où?");
-            console.log(item);
             for (i = 0; i < item.length; i++){
-                console.log(product);
                 if (item[i]._id === product._id && 
                     item[i].choiceColor === select.value){
                     let cost = 1 * input.value;
                     item[i].quantity += cost;
-                    console.log("quantity");
                     saveBasket(item);
-                    console.log("Is ok!");
                     return (item = JSON.parse(localStorage.getItem("keyStorage")),
                         window.location.href = "./cart.html");
                 }
@@ -117,7 +106,6 @@ function addProduct() {
                     item[i].choiceColor !== select.value) || 
                     item[i]._id !== product._id){
                     item.push(selectColor);
-                    console.log("Oufff!")
                     saveBasket(item);
                     return (item = JSON.parse(localStorage.getItem("keyStorage")),
                         window.location.href = "./cart.html");
@@ -127,19 +115,6 @@ function addProduct() {
         window.location.href = "./cart.html";
     });
     return (item = JSON.parse(localStorage.getItem("keyStorage")));
-}
-
-// ======================  ======================
-
-
-function changeQuantity () {
-    product;
-    console.log(product);
-    document.querySelector("#quantity").addEventListener(("change"), () => {
-    let input = document.querySelector("#quantity");
-        console.log(input.value);
-        console.log(item);
-    });
 }
 
 // // ===========================================
