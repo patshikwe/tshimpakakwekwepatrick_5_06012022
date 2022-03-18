@@ -85,6 +85,7 @@ function addProduct() {
             }else {
                 item.push(selectColor);
                 saveBasket(item);
+                window.location.href = "./cart.html";
             }
             
         } else if (item !== null ) {
@@ -112,7 +113,6 @@ function addProduct() {
                 }
             }
         }
-        window.location.href = "./cart.html";
     });
     return (item = JSON.parse(localStorage.getItem("keyStorage")));
 }

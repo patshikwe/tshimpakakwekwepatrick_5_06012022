@@ -17,29 +17,31 @@ quantityPriceNull();
 async function basket() {
     await item;
 
-  document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
-  ` <article class="cart__item" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">
-      <div class="cart__item__img">
-        <img src="${keyStorage.imageUrl}" alt="${keyStorage.altTxt}">
-      </div>
-      <div class="cart__item__content">
-        <div class="cart__item__content__description">
-          <h2>${keyStorage.name}</h2>
-          <p>${keyStorage.choiceColor}</p>
-          <p>${keyStorage.price} €</p>
+  if (item !== null) {
+    document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
+    ` <article class="cart__item" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">
+        <div class="cart__item__img">
+          <img src="${keyStorage.imageUrl}" alt="${keyStorage.altTxt}">
         </div>
-        <div class="cart__item__content__settings">
-          <div class="cart__item__content__settings__quantity">
-            <p>Qté : ${keyStorage.quantity} </p>
-            <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="${keyStorage.quantity}">
+        <div class="cart__item__content">
+          <div class="cart__item__content__description">
+            <h2>${keyStorage.name}</h2>
+            <p>${keyStorage.choiceColor}</p>
+            <p>${keyStorage.price} €</p>
           </div>
-          <div class="cart__item__content__settings__delete">
-          <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}')" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}">Supprimer</p>
+          <div class="cart__item__content__settings">
+            <div class="cart__item__content__settings__quantity">
+              <p>Qté : ${keyStorage.quantity} </p>
+              <input type="number" class="itemQuantity" data-id="${keyStorage._id}" data-color="${keyStorage.choiceColor}" name="itemQuantity" min="1" max="100" value="${keyStorage.quantity}">
+            </div>
+            <div class="cart__item__content__settings__delete">
+            <p class="deleteItem" onclick="deleteProduct('${keyStorage._id}','${keyStorage.choiceColor}')" data-id="${keyStorage._id}">Supprimer</p>
+            </div>
           </div>
         </div>
-      </div>
-    </article>`
-  ).join("");
+      </article>`
+    ).join("");
+  }
 
 // ---------------------------------------------------
 //  Appel fonctions pour quantité totale et prix total
@@ -118,22 +120,16 @@ function saveBasket(item) {
   localStorage.setItem("keyStorage", JSON.stringify(item));
 }
 
-/** Suppression produit dans dans le panier et localStorage */
-function deleteProduct(id) {
-  console.log(id);
-  item;
-  // for (i = 0; i < item.length; i++) {
-  //   console.log("option1");
-  //   if (item[i]._id === id && item[i].choiceColor === item[i].choiceColor.value) {
-  //     console.log("execute option1");
-  //     item = item.filter(p => p._id != id);
-  //     console.log("fin option1");
-  //   }
-  // }
-
-  
-  item = item.filter(p => p._id != id);
-  console.log("option2");
+/** Suppression produit dans dans le panier et localStorage
+ * 
+ * @param {number} id 
+ * @param {string} color 
+ */
+function deleteProduct(id,color) {
+  console.log(id,color);
+  console.log(item);
+  item = item.filter(p => p._id !== id || p.choiceColor !== color);
+  console.log(item);
   console.log(item);
   saveBasket(item);
   window.location.href = "./cart.html";
@@ -152,6 +148,16 @@ function deleteKey(item) {
 console.log(item);
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~ Formulaire Utilisateur ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Ne pas afficher le formulaire quand le panier est vide
+function displayForm() {
+  let divForm = document.querySelector(".cart__order");
+  console.log(divForm);
+  if (item === null) {
+    divForm.style.display = "none";
+  }
+  
+}
+
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
 let form = document.querySelector(".cart__order__form");
 
@@ -325,7 +331,7 @@ form.addEventListener('submit', function(e) {
    * appel fonction sendToApi pour envoyer dans l'API
   */
   item;
- console.log(item);
+  console.log(item);
   if (validFirstName(form.firstName) === true 
       && validLastName(form.lastName ) === true
       && validAdress(form.address) === true
@@ -334,10 +340,7 @@ form.addEventListener('submit', function(e) {
       && item !== null){
     localStorage.setItem("contact",JSON.stringify(contact));
     fetchOrder();
-  }else {
-    alert("Votre panier ne doit pas être vide et le formulaire complété");
   }
-  
 });
 // ===========================================================
 // --------------- Envoyer vers API --------------------------
@@ -396,5 +399,6 @@ async function fetchOrder () {
 
 function init() {
     basket();
+    displayForm()
 }
 
