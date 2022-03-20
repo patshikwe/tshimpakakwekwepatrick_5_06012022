@@ -58,13 +58,11 @@ async function basket() {
   // ----------------------------------
   function getTotalQuantity() {
     let totalQuantity = 0;
-    item;
     if(item !== null){
       for(let i = 0; i < item.length; i++){
         totalQuantity += item[i].quantity;
       }
       document.getElementById("totalQuantity").innerHTML = `${totalQuantity}`;
-      console.log(totalQuantity);
     }
   }
    // Prix total des produits(boucle)
@@ -128,7 +126,7 @@ function saveBasket(item) {
 function deleteProduct(id,color) {
   console.log(id,color);
   console.log(item);
-  item = item.filter(p => p._id !== id || p.choiceColor !== color);
+  item = item.filter(el => el._id !== id || el.choiceColor !== color);
   console.log(item);
   console.log(item);
   saveBasket(item);
@@ -141,8 +139,6 @@ console.log(item);
 
 // Supprimer la clé keyStorage dans localStorage -------
 function deleteKey(item) {
-  item;
-  console.log(item);
   localStorage.removeItem("keyStorage");
 } 
 console.log(item);
@@ -151,11 +147,9 @@ console.log(item);
 // Ne pas afficher le formulaire quand le panier est vide
 function displayForm() {
   let divForm = document.querySelector(".cart__order");
-  console.log(divForm);
   if (item === null) {
     divForm.style.display = "none";
   }
-  
 }
 
 /** Récuperé le formulaire par sa classe, assigné à la variable form */
@@ -186,7 +180,7 @@ form.firstName.addEventListener('change', function() {
  * testFirstName contient la variable RegExp avec la méthode test() qui renvoie true ou false
  * firstNameErrorMsg correspond au paragraphe de message d'erreur
  * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
-const validFirstName = function(verif) {
+  function validFirstName (verif) {
   let  testFirstName = firstRegExp.test(verif.value);
   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
  
@@ -212,7 +206,7 @@ form.lastName.addEventListener('change', function() {
  * testLastName contient la variable RegExp avec la méthode test() qui renvoie true ou false
  * lastNameErrorMsg correspond au paragraphe de message d'erreur
  * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
-const validLastName = function(verif) {
+  function validLastName (verif) {
   let  testLastName = firstRegExp.test(verif.value);
   let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
  
@@ -238,7 +232,7 @@ form.address.addEventListener('change', function() {
  * testAdress contient la variable RegExp avec la méthode test() qui renvoie true ou false
  * addressErrorMsg correspond au paragraphe de message d'erreur
  * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
-const validAdress = function(verif) {
+  function validAdress (verif) {
   let  testAdress = secondRegExp.test(verif.value);
   let addressErrorMsg = document.getElementById("addressErrorMsg");
  
@@ -260,11 +254,11 @@ form.city.addEventListener('change', function() {
 });
 
 // ************ Validation Ville ***************
-/** valiCity est une fonction 
+/** validCity est une fonction 
  * testCity contient la variable RegExp avec la méthode test() qui renvoie true ou false
  * cityErrorMsg correspond au paragraphe de message d'erreur
  * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
-const validCity = function(verif) {
+  function validCity (verif) {
   let  testCity = thirdRegExp.test(verif.value);
   let cityErrorMsg = document.getElementById("cityErrorMsg");
  
@@ -289,7 +283,7 @@ form.email.addEventListener('change', function() {
  * testEmail contient la variable RegExp avec la méthode test() qui renvoie true ou false
  * emailErrorMsg correspond au paragraphe de message d'erreur
  * if vérifie si le RegExp est vrai et else affiche le message d'erreur lorsque celui-ci est false   */
-const validEmail = function(verif) {
+  function validEmail (verif) {
   let  testEmail = emailRegExp.test(verif.value);
   let emailErrorMsg = document.getElementById("emailErrorMsg");
  
@@ -313,6 +307,7 @@ form.addEventListener('submit', function(e) {
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
    */
+   
    const contact = {
     firstName : document.querySelector("#firstName").value,
 
@@ -324,13 +319,14 @@ form.addEventListener('submit', function(e) {
  
     email : document.querySelector("#email").value,
   }
+
   // ======================================
   /** Soumission aux conditions de validation
    * Si les fonctions de validation sont vraies et item est différent de null,
    * envoi du formulaire(dans localStorage)
    * appel fonction sendToApi pour envoyer dans l'API
   */
-  item;
+  
   console.log(item);
   if (validFirstName(form.firstName) === true 
       && validLastName(form.lastName ) === true
@@ -339,36 +335,23 @@ form.addEventListener('submit', function(e) {
       && validEmail(form.email) === true 
       && item !== null){
     localStorage.setItem("contact",JSON.stringify(contact));
-    fetchOrder();
+    fetchOrder(contact);
   }
 });
 // ===========================================================
 // --------------- Envoyer vers API --------------------------
-async function fetchOrder () {
-/** const contact est un objet
- * chaque clé appelle une méthode qui récupère son id
- * value correpond à la saisie du champ de formulaire par l'utilisateur
- */
- const contact = {
-  firstName : document.querySelector("#firstName").value,
-  
-  lastName : document.querySelector("#lastName").value,
-  
-  address : document.querySelector("#address").value,
-  
-  city : document.querySelector("#city").value,
-  
-  email : document.querySelector("#email").value,
-  }
-   console.log(contact);
+async function fetchOrder (contact) {
+  /* contact est un objet contenant les valeurs des champs du formulaire*/
+  contact; 
+  console.log(contact);
   // ---------------------------------------------------------------
-  // Créeé un tableau uniquement avec les id par la méthode map ---
+  // Crée un tableau uniquement avec l'id par la méthode map ---
   let products = item.map(el => {
     return el._id
   })
   console.log(products); 
   // ---------------------------------------------
-  //  
+  
   const send = {
     contact,
     products

@@ -10,10 +10,9 @@
 async function fetchData() {
     let data = [];
     await fetch("http://localhost:3000/api/products")
+        .then((res) => res.json()) 
         .then((res2) => {
-            data = res2.json()
-            console.log(data);
-            createLink(data);
+            data = res2
         })
         .catch((error) => {
            let sectionItems = document.getElementById("items");
@@ -22,17 +21,17 @@ async function fetchData() {
            paragraph.style.fontSize = "1.5em";
            paragraph.style.color = "#fbbcbc";
         });
-        console.log(data);
+        createLink(data);
 }
 
 // =====================================
 /** */
 
 const createLink = async (data) => {
-    let dataList = await data;
-    console.log(dataList);
+    await data;
+    console.log(data);
 
-    document.getElementById("items").innerHTML = dataList.map((product)=> 
+    document.getElementById("items").innerHTML = data.map((product)=> 
         `<a href="./product.html?id=${product._id}">
         <article>
         <img src="${product.imageUrl}" alt="${product.altTxt}">
