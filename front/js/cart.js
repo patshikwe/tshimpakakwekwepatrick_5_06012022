@@ -1,8 +1,15 @@
+/** */
+const fetchData = async () =>
+  await fetch("http://localhost:3000/api/products")
+    .then((prom) => prom.json())
+   
 /** 
  * keyStorage est la clé stockée dans localStorage
  * Récupérée est assignée dans la variable item
  */
 let item = JSON.parse(localStorage.getItem("keyStorage"));
+// ---------- Tableau vide -------------------------------
+let arrayOfProducts = [];
 // ========================================================
 /** Affichage de la quantité totale et prix total quand le panier est vide */
 function quantityPriceNull() {
@@ -17,6 +24,8 @@ quantityPriceNull();
 // Données panier, implémentation de la carte ===========
 async function basket() {
     await item;
+    arrayOfProducts = await fetchData(); 
+    console.log(arrayOfProducts);
 
   if (item !== null) {
     document.getElementById("cart__items").innerHTML = item.map((keyStorage) => 
@@ -28,7 +37,6 @@ async function basket() {
           <div class="cart__item__content__description">
             <h2>${keyStorage.name}</h2>
             <p>${keyStorage.choiceColor}</p>
-            <p>${keyStorage.price} €</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -42,12 +50,21 @@ async function basket() {
         </div>
       </article>`
     ).join("");
+
+    if (item._id === arrayOfProducts._id) {
+      for (i = 0; i < item.length; i++) {
+        let cartDescription = document.querySelectorAll(".cart__item__content__description");
+        let paragraphPrice = document.createElement("p");
+        cartDescription[i].appendChild(paragraphPrice);
+        paragraphPrice.innerHTML = arrayOfProducts[i].price;
+      }
+    }
   }
 
 // ---------------------------------------------------
 //  Appel fonctions pour quantité totale et prix total
 // ---------------------------------------------------
-  getTotalPrice();
+  getTotalPrice(arrayOfProducts);
   getTotalQuantity();
 // ---------------------------------------------------
 // Appel fonction pour modifier la quantité ================
@@ -68,13 +85,15 @@ async function basket() {
   }
    // Prix total des produits(boucle)
   // --------------------------------
-  function getTotalPrice() {
+  function getTotalPrice(arrayOfProducts) {
     let totalPrice = 0;
     if (item !== null) {
-      for(let i = 0; i < item.length; i++){
-        totalPrice += item[i].price * item[i].quantity;
-      }
-      document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
+     if (item._id === arrayOfProducts._id) {
+        for(let i = 0; i < item.length; i++){
+          totalPrice += arrayOfProducts[i].price * item[i].quantity;
+        }
+        document.getElementById("totalPrice").innerHTML = `${totalPrice}`;
+     }
     }
   }
 //  ================= Function pour modifier la quantité des produits =======
@@ -96,7 +115,7 @@ function changeQuantity(basket) {
             item[i].quantity++,
             localStorage.setItem("keyStorage", JSON.stringify(item)),
             (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
-            textContent = item[i].quantity), getTotalQuantity(), getTotalPrice()
+            textContent = item[i].quantity), getTotalQuantity(), getTotalPrice(arrayOfProducts)
           );
         }else if (item[i]._id === el.dataset.id
             && item[i].choiceColor === el.dataset.color
@@ -105,7 +124,7 @@ function changeQuantity(basket) {
               item[i].quantity--,
               localStorage.setItem("keyStorage", JSON.stringify(item)),
               (document.querySelectorAll(".cart__item__content__settings__quantity > p")[i].
-              textContent = item[i].quantity), getTotalQuantity(), getTotalPrice()
+              textContent = item[i].quantity), getTotalQuantity(), getTotalPrice(arrayOfProducts)
             );
           }      
       }
