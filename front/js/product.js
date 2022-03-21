@@ -3,30 +3,25 @@
 let params = new URLSearchParams(window.location.search);
 let idProduct = params.get("id");
 console.log(idProduct);
-
 // ===========================================
-/**Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end); 
- * les transformées en json et les stockées dans une variable sous forme de tableau;
- * idProduct correspond à l'id du produit sélectionné;
- * ici la variable product stocke les données d'un produit(c'est un tableau).
-*/
 let product = [];
 
-async function fetchProduct() {
+/**
+ * Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end); 
+ * les transformées en json et les stockées dans une variable sous forme d'un objet;
+ * idProduct correspond à l'id du produit sélectionné;
+ * ici la variable product stocke les données d'un produit.
+*/
+ const fetchProduct = async () => 
     await fetch(`http://localhost:3000/api/products/${idProduct}`)
         .then((res) => res.json())
-        .then((res2) => {
-            product = res2
-            console.log(product);
-        })
-    return product
-}
 
 // ==============================================
 /**  */
 
 const productSelect = async () => {
-    const product = await fetchProduct();
+    let product = await fetchProduct();
+    console.log(product);
 
    let image = document.querySelector(".item__img");
    image.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
@@ -48,7 +43,7 @@ const productSelect = async () => {
     tagOption.value = `${colorName}`;
    });
     
-   addProduct(); 
+   addProduct(product); 
 };
 
 // ==================================================
@@ -59,16 +54,21 @@ function saveBasket(item) {
 
 // ============  ===============================
 
-function addProduct() {
+function addProduct(product) {
 
     let buttonProduct = document.getElementById("addToCart");
     let input = document.querySelector("#itemQuantity");
     
+    delete product.price;
+    console.log(product);
+    console.log(typeof product);
+
     buttonProduct.addEventListener(("click"), (e) => {
         let item = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("color-select");
-
-        /** selectColor est une variable par la quelle est assignée des éléments
+       
+        /** 
+         * selectColor est une variable par la quelle est assignée des éléments
          * choiceColor(la couleur choisie) et quantity(la quantité du produit de même id)
          * selectColor est un élément de product(tableau)
          */
@@ -122,7 +122,5 @@ function addProduct() {
  * Cette fontion est appelée à partir du body de la page product.html */
 
 function init() {
-    console.log(init);
     productSelect();
-   
 }

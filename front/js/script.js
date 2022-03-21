@@ -15,11 +15,14 @@ async function fetchData() {
             data = res2
         })
         .catch((error) => {
-           let sectionItems = document.getElementById("items");
+           let divErrorMessage = document.querySelector(".titles");
            let paragraph = document.createElement("p");
-           sectionItems.appendChild(paragraph).textContent = "Échec du chargement des données";
-           paragraph.style.fontSize = "1.5em";
+           divErrorMessage.appendChild(paragraph);
+           paragraph.textContent = "Échec du chargement des données";
+           paragraph.style.fontSize = "1.3em";
            paragraph.style.color = "#fbbcbc";
+           paragraph.style.textAlign = "center";
+           console.log("hello!");
         });
         createLink(data);
 }
