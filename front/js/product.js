@@ -15,6 +15,13 @@ let product = [];
  const fetchProduct = async () => 
     await fetch(`http://localhost:3000/api/products/${idProduct}`)
         .then((res) => res.json())
+        .catch((error) => {
+            let items = document.querySelector("article");
+            items.insertAdjacentHTML('afterbegin', '<p>Échec du chargement des données</p>');
+            let paragraph = document.querySelector("article > p");
+            paragraph.style.fontSize = "1.3em";
+            paragraph.style.color = "#fbbcbc";
+          })
 
 // ==============================================
 /**  */

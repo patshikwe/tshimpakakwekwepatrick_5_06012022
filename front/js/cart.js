@@ -2,6 +2,14 @@
 const fetchData = async () =>
   await fetch("http://localhost:3000/api/products")
     .then((prom) => prom.json())
+    .catch((error) => {
+      let cartOfItems = document.querySelector("#cart__items");
+      cartOfItems.insertAdjacentHTML('beforebegin', '<p>Échec du chargement des données</p>');
+      let paragraph = document.querySelector(".cart > p");
+      paragraph.style.fontSize = "1.3em";
+      paragraph.style.color = "#fbbcbc";
+      paragraph.style.textAlign = "center";
+    })
    
 /** 
  * keyStorage est la clé stockée dans localStorage
