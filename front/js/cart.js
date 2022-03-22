@@ -1,4 +1,6 @@
-/** */
+/**
+ * @returns {Promise}
+ */
 const fetchData = async () =>
   await fetch("http://localhost:3000/api/products")
     .then((prom) => prom.json())
@@ -11,15 +13,14 @@ const fetchData = async () =>
       paragraph.style.textAlign = "center";
     })
    
-/** 
- * keyStorage est la clé stockée dans localStorage
- * Récupérée est assignée dans la variable item
+/* keyStorage est la clé stockée dans localStorage. 
+   Elle est récupérée, est assignée dans la variable item
  */
 let item = JSON.parse(localStorage.getItem("keyStorage"));
-// ---------- Tableau vide -------------------------------
+// --- Tableau vide à utiliser pour contenir le prix de produit ---
 let arrayOfProducts = [];
 // ========================================================
-/** Affichage de la quantité totale et prix total quand le panier est vide */
+// Affichage de la quantité totale et prix total quand le panier est vide
 function quantityPriceNull() {
   if (item === null) {
     document.getElementById("totalQuantity").innerHTML = "0";
@@ -59,6 +60,7 @@ async function basket() {
       </article>`
     ).join("");
 
+    // Implémentaion du prix des produits *************************
     if (item._id === arrayOfProducts._id) {
       for (i = 0; i < item.length; i++) {
         let cartDescription = document.querySelectorAll(".cart__item__content__description");
@@ -106,8 +108,14 @@ async function basket() {
   }
 //  ================= Function pour modifier la quantité des produits =======
 /**
- * Quantité plus
- * Quantité moins
+ * @param {function(basket)}
+ * @param {Object[]} item 
+ * if pour la quantité plus; 
+ * compare l'id et couleur dans item et ceux de dataset sont-ils identiques 
+ * et la quantité dans item est inférieure à celle saisie par l'utilisateur.
+ * else if pour quantité moins;
+ * fait la même comparaison de couleur et id,
+ * et la quantité dans item est supérieure à celle saisie par l'utilisateur.
  */
 function changeQuantity(basket) {
   item;
@@ -142,20 +150,18 @@ function changeQuantity(basket) {
 
 
 // ******************* Supprimer Produit **********************************
-//  Enreigistré panier dans localStorage ------
+//  Enreigistré panier dans localStorage, cette fonction prend pour paramettre item------
 function saveBasket(item) {
   localStorage.setItem("keyStorage", JSON.stringify(item));
 }
 
-/** Suppression produit dans dans le panier et localStorage
- * 
- * @param {number} id 
+/** 
+ * Suppression produit dans dans le panier et localStorage
+ * @param {string} id 
  * @param {string} color 
  */
 function deleteProduct(id,color) {
-  console.log(id,color);
   item = item.filter(el => el._id !== id || el.choiceColor !== color);
-  console.log(item);
   saveBasket(item);
   window.location.href = "./cart.html";
   if (item.length === 0) {
@@ -181,7 +187,7 @@ function displayForm() {
 // Récuperé le formulaire par sa classe, assigné à la variable form 
 let form = document.querySelector(".cart__order__form");
 
-/** 
+/* 
  * Validation du formulaire
  * N°1 Regex(firstRegExp) autorise les lettres minuscules, majuscules et avec accents, tiret et espace
  * pour les champs prénom et nom.  
@@ -345,7 +351,6 @@ form.addEventListener('submit', function(e) {
    * chaque clé appelle une méthode qui récupère son id
    * value correpond à la saisie du champ de formulaire par l'utilisateur
    */
-   
    const contact = {
     firstName : document.querySelector("#firstName").value,
 
@@ -358,15 +363,12 @@ form.addEventListener('submit', function(e) {
     email : document.querySelector("#email").value,
   }
 
-  // ======================================
   /** 
    * Soumission aux conditions de validation
    * Si les fonctions de validation sont vraies et item est différent de null,
    * envoi du formulaire(dans localStorage)
-   * appel fonction sendToApi pour envoyer dans l'API
+   * appel fonction fetchOrder pour envoyer dans l'API
   */
-  
-  console.log(item);
   if (validFirstName(form.firstName) === true 
       && validLastName(form.lastName ) === true
       && validAdress(form.address) === true
@@ -382,22 +384,25 @@ form.addEventListener('submit', function(e) {
 async function fetchOrder (contact) {
   /* contact est un objet contenant les valeurs des champs du formulaire*/
   contact; 
-  console.log(contact);
-  // ---------------------------------------------------------------
+ 
   // Crée un tableau uniquement avec l'id par la méthode map ---
   let products = item.map(el => {
     return el._id
   })
-  console.log(products); 
-  // ---------------------------------------------
   
+  // ---------------------------------------------
+  // send est un objet contenant un objet et un tableau *******
   const send = {
     contact,
     products
   }
-    console.log(send);
 
+  // ------- Tableau vide ------
   let responseId = [];
+
+  /**
+   * @returns {Promise}
+   */
   await fetch("http://localhost:3000/api/products/order", {
     method: "POST",
     headers: {
@@ -409,7 +414,6 @@ async function fetchOrder (contact) {
   .then((res) => res.json())
     .then(function (data) {
         responseId = data;
-        console.log(responseId.orderId);
         window.location.replace(`./confirmation.html?orderId=${responseId.orderId}`);
         return responseId;
     });
@@ -417,8 +421,8 @@ async function fetchOrder (contact) {
    
 // =================================================================
 /** La fonction init regroupe tous les appels de fonctions.
- * Cette fontion est appelée à partir du body de la page cart.html */
-
+ * Cette fontion est appelée à partir du body de la page cart.html 
+ */
 function init() {
     basket();
     displayForm()

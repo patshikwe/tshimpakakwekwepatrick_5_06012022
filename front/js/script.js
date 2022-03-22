@@ -1,4 +1,5 @@
-/** La fonction fetchData permet d'aller chercher les données de l'API(tous les prodits);
+/** 
+ * La fonction fetchData permet d'aller chercher les données de l'API(tous les prodits);
  * async permet d'utiliser les données de manière asynchrone;
  * data est la variable où sera stockée les données (data est un tableau vide);
  * await permet de mettre en pause l'exécution du code jusqu'au chargement de la reponse;
@@ -22,17 +23,19 @@ async function fetchData() {
            paragraph.style.fontSize = "1.3em";
            paragraph.style.color = "#fbbcbc";
            paragraph.style.textAlign = "center";
-           console.log("hello!");
         });
         createLink(data);
 }
 
 // =====================================
-/** */
+/**
+ * @param {object} data
+ * Implémentation de l'ensemble de produits.
+ * 2 méthodes utilisées: innerHTML et map.
+ */
 
 const createLink = async (data) => {
     await data;
-    console.log(data);
 
     document.getElementById("items").innerHTML = data.map((product)=> 
         `<a href="./product.html?id=${product._id}">
@@ -46,8 +49,10 @@ const createLink = async (data) => {
 }
  
 // =================================================
-/** La fonction init regroupe tous les appels de fonctions.
- * Cette fontion est appelée à partir du body de la page index.html */
+/** 
+ * La fonction init regroupe tous les appels de fonctions.
+ * Cette fontion est appelée à partir du body de la page index.html 
+ */
 
 function init() {
     fetchData()

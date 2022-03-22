@@ -1,16 +1,18 @@
-/** */
-
+/**
+ * @param {object} params
+ * @param {string} idProduct
+ * URLSearchParams est la méthode pour récupérer l'identifiant via URL.
+ */
 let params = new URLSearchParams(window.location.search);
 let idProduct = params.get("id");
-console.log(idProduct);
-// ===========================================
+
+// ===== Tableau vide à utiliser pour stocker les données ======
 let product = [];
 
 /**
  * Cette fonction permet d'aller récupérer les données d'un produit dans l'API(back-end); 
  * les transformées en json et les stockées dans une variable sous forme d'un objet;
  * idProduct correspond à l'id du produit sélectionné;
- * ici la variable product stocke les données d'un produit.
 */
  const fetchProduct = async () => 
     await fetch(`http://localhost:3000/api/products/${idProduct}`)
@@ -24,11 +26,14 @@ let product = [];
           })
 
 // ==============================================
-/**  */
+/**
+ * @param {object} product
+ * product contient les données du produit venant du back-end.
+ * Implémentation du produit.
+*/
 
 const productSelect = async () => {
     let product = await fetchProduct();
-    console.log(product);
 
    let image = document.querySelector(".item__img");
    image.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
@@ -74,8 +79,7 @@ function addProduct(product) {
         let item = JSON.parse(localStorage.getItem("keyStorage"));
         let select = document.getElementById("color-select");
        
-        /** 
-         * selectColor est une variable par la quelle est assignée des éléments
+        /*selectColor est une variable par la quelle est assignée des éléments
          * choiceColor(la couleur choisie) et quantity(la quantité du produit de même id)
          * selectColor est un élément de product(tableau)
          */
@@ -125,8 +129,10 @@ function addProduct(product) {
 }
 
 // // ===========================================
-/** La fonction init regroupe tous les appels de fonctions.
- * Cette fontion est appelée à partir du body de la page product.html */
+/** 
+ * La fonction init regroupe tous les appels de fonctions.
+ * Cette fontion est appelée à partir du body de la page product.html 
+ */
 
 function init() {
     productSelect();
