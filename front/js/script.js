@@ -1,4 +1,4 @@
-/** 
+/**
  * La fonction fetchData permet d'aller chercher les données de l'API(tous les prodits);
  * async permet d'utiliser les données de manière asynchrone;
  * data est la variable où sera stockée les données (data est un tableau vide);
@@ -9,22 +9,22 @@
  */
 
 async function fetchData() {
-    let data = [];
-    await fetch("http://localhost:3000/api/products")
-        .then((res) => res.json()) 
-        .then((res2) => {
-            data = res2
-        })
-        .catch((error) => {
-           let divErrorMessage = document.querySelector(".titles");
-           let paragraph = document.createElement("p");
-           divErrorMessage.appendChild(paragraph);
-           paragraph.textContent = "Échec du chargement des données";
-           paragraph.style.fontSize = "1.3em";
-           paragraph.style.color = "#fbbcbc";
-           paragraph.style.textAlign = "center";
-        });
-        createLink(data);
+  let data = [];
+  await fetch("http://localhost:3000/api/products")
+    .then((res) => res.json())
+    .then((res2) => {
+      data = res2;
+    })
+    .catch((error) => {
+      let divErrorMessage = document.querySelector(".titles");
+      let paragraph = document.createElement("p");
+      divErrorMessage.appendChild(paragraph);
+      paragraph.textContent = "Échec du chargement des données";
+      paragraph.style.fontSize = "1.3em";
+      paragraph.style.color = "#fbbcbc";
+      paragraph.style.textAlign = "center";
+    });
+  createLink(data);
 }
 
 // =====================================
@@ -35,9 +35,11 @@ async function fetchData() {
  */
 
 const createLink = async (data) => {
-    await data;
+  await data;
 
-    document.getElementById("items").innerHTML = data.map((product)=> 
+  document.getElementById("items").innerHTML = data
+    .map(
+      (product) =>
         `<a href="./product.html?id=${product._id}">
         <article>
         <img src="${product.imageUrl}" alt="${product.altTxt}">
@@ -45,15 +47,16 @@ const createLink = async (data) => {
         <p class="productDescription">${product.description}</p>
         </article>
         </a>`
-    ).join("");
-}
- 
+    )
+    .join("");
+};
+
 // =================================================
-/** 
+/**
  * La fonction init regroupe tous les appels de fonctions.
- * Cette fontion est appelée à partir du body de la page index.html 
+ * Cette fontion est appelée à partir du body de la page index.html
  */
 
 function init() {
-    fetchData()
+  fetchData();
 }
