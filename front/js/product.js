@@ -99,9 +99,11 @@ function addProduct(product) {
       if (select.value === "") {
         item = [];
       } else {
-        item.push(selectColor);
-        saveBasket(item);
-        window.location.href = "./cart.html";
+        if(input.value > 0 && input.value < 101){
+          item.push(selectColor);
+          saveBasket(item);
+          window.location.href = "./cart.html";
+        }
       }
     } else if (item !== null) {
       if (select.value === "") {
@@ -110,7 +112,8 @@ function addProduct(product) {
       for (i = 0; i < item.length; i++) {
         if (
           item[i]._id === product._id &&
-          item[i].choiceColor === select.value
+          item[i].choiceColor === select.value &&
+          (input.value > 0 && input.value < 101)
         ) {
           let cost = 1 * input.value;
           item[i].quantity += cost;
@@ -124,8 +127,9 @@ function addProduct(product) {
       for (i = 0; i < item.length; i++) {
         if (
           (item[i]._id === product._id &&
-            item[i].choiceColor !== select.value) ||
-          item[i]._id !== product._id
+            item[i].choiceColor !== select.value ) &&
+            (input.value > 0 && input.value < 101) ||
+          item[i]._id !== product._id && (input.value > 0 && input.value < 101)
         ) {
           item.push(selectColor);
           saveBasket(item);

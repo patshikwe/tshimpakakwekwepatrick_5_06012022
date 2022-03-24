@@ -136,7 +136,8 @@ function changeQuantity(basket) {
         if (
           item[i]._id === el.dataset.id &&
           item[i].choiceColor === el.dataset.color &&
-          item[i].quantity < input[i].value
+          item[i].quantity < input[i].value && 
+          (input[i].value > 0 && input[i].value < 101)
         ) {
           return (
             item[i].quantity++,
@@ -150,7 +151,8 @@ function changeQuantity(basket) {
         } else if (
           item[i]._id === el.dataset.id &&
           item[i].choiceColor === el.dataset.color &&
-          item[i].quantity > input[i].value
+          item[i].quantity > input[i].value && 
+          (input[i].value > 0 && input[i].value < 101)
         ) {
           return (
             item[i].quantity--,
@@ -186,7 +188,7 @@ function deleteProduct(id, color) {
     deleteKey();
   }
 }
-console.log(item);
+
 
 // Supprimer la clé keyStorage dans localStorage -------
 function deleteKey(item) {
@@ -207,11 +209,11 @@ let form = document.querySelector(".cart__order__form");
 
 /*
  * Validation du formulaire
- * N°1 Regex(firstRegExp) autorise les lettres minuscules, majuscules et avec accents, tiret et espace
- * pour les champs prénom et nom.
+ * N°1 Regex(firstRegExp) pour les champs prénom et nom, autorise les lettres minuscules, majuscules et avec accents, tiret et espace.
  * N°2 RegExp(secondRegExp) pour adresse, autorise les chiffres de 0 à 9 une ou plusieurs fois, les lettres
- * minuscules, majuscules et avec accents, point, underscore, tiret et espace.
- * N°3 Regex(emailRegExp) pour email est composé en 3 parties, autorise: 1ère: lettres de a à z minuscules et
+ * minuscules, majuscules et avec accents,apostrophe, point, underscore, tiret et espace.
+ * N°3 Regex(thirdRegExp) pour ville, autorise les lettres minuscules, majuscules et avec accents et apostrophe.
+ * N°4 Regex(emailRegExp) pour email est composé en 3 parties, autorise: 1ère: lettres de a à z minuscules et
  * majuscules, chiffres de 0 à 9, point, underscore et tiret;
  * 2ème: @ une fois, lettres de a à z minuscules et majuscules, chiffres de 0 à 9, point, underscore et tiret
  * 3ème: point une fois, lettres minuscules de a à z nombre minimum 2 et maximum 10.
@@ -433,6 +435,9 @@ async function fetchOrder(contact) {
         `./confirmation.html?orderId=${responseId.orderId}`
       );
       return responseId;
+    })
+    .catch((error) => {
+      alert("Échec du chargement, veuillez nous excuser pour ce désagrément!");
     });
 }
 
