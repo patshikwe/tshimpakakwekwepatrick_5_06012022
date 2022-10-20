@@ -176,7 +176,7 @@ function saveBasket(item) {
 }
 
 /**
- * Suppression produit dans dans le panier et localStorage
+ * Suppression produit dans le panier et localStorage
  * @param {string} id
  * @param {string} color
  */
