@@ -4,6 +4,7 @@
 
 *Ce projet est réalisé en collaboration entre trois collègues.*  
 *L'un a implémenté le Back end et les deux autres ont réalisé le Front end.*  
+**Kanap** _est une boutique de vente en ligne des canapés_. 
 
 ### Ma mission ###
 
@@ -15,7 +16,7 @@ _J'ai implémenté la partie Javascript_.
 
 Vous aurez besoin d'avoir Node et `npm` installés localement sur votre machine.
 
-### Installation Back end ###
+### Installation du Back end ###
 
 Clonez ce dépôt. Depuis le dossier "back" du projet, exécutez `npm install` pour installer toutes les dépendances.  
 Vous pouvez ensuite exécuter le serveur avec la commande `node server`.  
