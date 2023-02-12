@@ -3,7 +3,7 @@
 ## Description du projet ##
 
 *Ce projet est réalisé en collaboration entre trois collègues.*  
-*L'un a implémenté le Back end et les deux autres ont réalisé le Front end.*  
+*L'un a implémenté le Back-end et les deux autres ont réalisé le Front-end.*  
 **Kanap** _est une boutique de vente en ligne des canapés_. 
 
 ### Ma mission ###
